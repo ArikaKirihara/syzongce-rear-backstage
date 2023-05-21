@@ -1,0 +1,84 @@
+/* 提交认证申请css */
+.item{
+    margin: auto;
+    width: 95%;
+    height: 610px;
+    font-size: 16px;
+	/*每个字之间的间距*/
+	letter-spacing: 2px;
+    color: rgb(80, 80, 80);
+    /* text-align: center; */
+}
+
+.form_control > h2,hr{
+    margin-top: 10px;
+    text-align: center;
+}
+
+.form_control{
+    width: 100%;
+}
+
+.form_item{
+    margin-top: 20px;
+    margin-left: 20%;
+    
+}
+
+.form_item textarea {
+    min-width: 500px;
+    min-height: 150px;
+    max-width: 500px;
+    max-height: 150px;
+}
+
+.label_control{
+    display: block;
+    width: 100px;
+    height: 30px;   
+    text-align: left;
+    float: left;
+}
+
+.button_control{
+    display: inline;
+    margin-left: 300px;
+}
+
+.button_control > div{
+    display: inline;
+    margin-left: 100px;
+}
+
+.button_control > div > input{
+    width: 70px;
+    height: 35px;
+    border: 1px solid;
+    border-radius: 5px;
+    margin-top: 20px;
+    color: white;
+}
+
+.submit > input{
+    background-color: rgb(11, 140, 245);
+}
+
+.submit > input:hover {
+    background-color: rgb(60, 163, 248);
+}
+
+.submit > input:active{
+    background-color: rgb(9, 84, 145);
+}
+
+.reset  > input{
+    background-color: rgb(51,68,84);
+}
+
+.reset  > input:hover{
+    background-color: rgb(68,90,110);
+}
+
+.reset  > input:active{
+    background-color: rgb(37,50,61);
+}

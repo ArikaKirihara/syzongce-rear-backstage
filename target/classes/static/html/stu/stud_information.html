@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>我的资料</title>
+        <link rel="icon" href="../../images/icon.jpg">
+        <link rel="stylesheet" href="../../layouts/stu_base.css">
+        <link rel="stylesheet" href="../../css/stud_information.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+    </head>
+    
+<body>
+    <div class="wrapper">
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="stud_information.html">我的资料</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <div class="item">
+                    <form class="form_control">
+                        <div class="form_item">
+                            <label class="label_control">姓名</label>
+                            <input type="text" disabled="true" class="input_control" id="stu_Name" />
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">学号</label>
+                            <input type="text" disabled="true" class="input_control" id="stu_Id"  />
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">性别</label>
+                            <input type="text" disabled="true" class="input_control" id="stu_Sex"  />
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">学院</label>
+                            <input type="text" disabled="true" class="input_control" id="stu_Dept"  />
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">年级</label>
+                            <input type="text" disabled="true" class="input_control" id="grade"  />
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">专业</label>
+                            <input type="text" disabled="true" class="input_control" id="major"  />
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">班级</label>
+                            <input type="text" disabled="true" class="input_control" id="stu_class"  />
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">身份证号</label>
+                            <input type="text" disabled="true" class="input_control" id="identity_Num" />
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">辅导员</label>
+                            <input type="text" disabled="true" class="input_control" id="menter_id"  />
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+    <script>
+        $(document).ready(function (){
+            $.ajax({
+                url:"/student/info",
+                type:"GET",
+                data:$("#form_control").serialize(),
+                dataType:"JSON",
+                success:function(json){
+                    if (json.code == 200){
+                        $("#stu_Name").val(json.data.stu_Name)
+                        $("#stu_Id").val(json.data.stu_Id)
+                        $("#stu_Sex").val(json.data.stu_Sex)
+                        $("#stu_Dept").val(json.data.stu_Dept)
+                        $("#grade").val(json.data.grade)
+                        $("#major").val(json.data.major)
+                        $("#stu_class").val(json.data.stu_class)
+                        $("#identity_Num").val(json.data.identity_Num)
+                        $("#menter_id").val(json.data.m_Name)
+                    }
+                    else{
+                        alert('用户信息不存在');
+                    }
+                },
+                error:function(xhr){
+                    alert("查询用户信息产生未知异常："+xhr.msg);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

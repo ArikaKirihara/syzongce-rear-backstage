@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导入学生个人绩点</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/teach_base.css">
+    <link rel="stylesheet" href="../../css/teach_gpa.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="teach_gpa.html">导入学生个人绩点</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <!-- 导入板块 -->
+                <div class="item">
+                    <button id="download">下载模板</button>
+                    <hr>
+                    <div class="import">
+                        <form id="increment" enctype="multipart/form-data">
+                        <div class="left">
+
+                            <span class="text1">对应关系文件*</span>
+                            <input type="file" class="upload" name="file">
+                            <p>
+                                <span class="note">1.在原始导入的学生及对应的公益积分记录追加数据。</span>
+                                <span class="note">2.当前学生没有任何对应的记录，就直接导入。</span>
+                            </p>
+                            <button class="btn2" id="gpa_increment">增量导入</button>
+
+                        </div>
+                        </form>
+                        <form id="cover" enctype="multipart/form-data">
+                        <div class="right">
+
+                            <span class="text1">对应关系文件*</span>
+                            <input type="file" class="upload" name="file">
+                            <p>
+                                <span class="note">1.原始的学生及对应的公益积分导入记录会被更新覆盖。</span>
+                                <span class="note">2.当前学生没有任何对应的记录，就直接导入。</span>
+                            </p>
+                            <button class="btn2" id="gpa_cover">覆盖导入</button>
+
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 搜索板块 -->
+                <div class="item filter">
+                    <form>
+                    <div class="select">
+                        <div class="above">
+                            <div class="selitem">
+                                <div class="seltitle">
+                                    <span>年级：</span>
+                                </div>
+                                <div>
+                                    <select id="grade" class="selcontent">
+                                        <option value="0">--请选择年级--</option>
+                                        <option>2022</option>
+                                        <option>2021</option>
+                                        <option>2020</option>
+                                        <option>2019</option>
+                                        <option>2018</option>
+                                        <option>2017</option>
+                                        <option>2016</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="selitem">
+                                <div class="seltitle">
+                                    <span>专业：</span>
+                                </div>
+                                <div>
+                                    <select id="major" class="selcontent">
+                                        <option value="">--请选择专业--</option>
+                                        <option>工程管理</option>
+                                        <option>国际经济与贸易</option>
+                                        <option>国际商务</option>
+                                        <option>人力资源管理</option>
+                                        <option>市场营销</option>
+                                        <option>物流管理</option>
+                                        <option>信息管理与信息系统</option>
+                                        <option>工商管理类</option>
+                                        <option>管理科学与工程类</option>
+                                        <option>国际经济与贸易（跨境）</option>
+                                        <option>国际经济与贸易</option>
+                                        <option>国际商务</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="selitem">
+                                <div class="seltitle">
+                                    <span>班级：</span>
+                                </div>
+                                <div>
+                                    <select id="class" class="selcontent">
+                                        <option value="">--请选择班级--</option>
+                                        <option>1班</option>
+                                        <option>2班</option>
+                                        <option>3班</option>
+                                        <option>4班</option>
+                                        <option>5班</option>
+                                    </select>
+                                </div>
+                            </div>
+                             
+                        </div>
+                        <div class="below">
+                            <div class="selitem selitem1">
+                                <label for="stu_id">学号:</label>
+                                <input type="text" class="selcontent" id="stu_id" name="stu_id" placeholder="请输入学号">
+                            </div>
+                            <div class="selitem selitem1">
+                                <label for="stu_name">姓名:</label>
+                                <input type="text" class="selcontent" id="stu_name" name="stu_name" placeholder="请输入姓名">
+                            </div>
+                            <div class="selitem">
+                                <div class="seltitle">
+                                    <span>学期：</span>
+                                </div>
+                                <div>
+                                    <select id="semester" class="selcontent">
+                                        <option value="">--请选择学期--</option>
+                                        <option value="2022-2023-1">2022-2023-1</option>
+                                        <option value="2021-2022-2">2021-2022-2</option>
+                                        <option value="2021-2022-1">2021-2022-1</option>
+                                        <option value="2020-2021-2">2020-2021-2</option>
+                                        <option value="2020-2021-1">2020-2021-1</option>
+                                        <option value="2019-2020-2">2019-2020-2</option>
+                                        <option value="2019-2020-2">2019-2020-1</option>
+                                    </select>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                    <div class="operate">
+                        <input type="button" value="搜索" class="btn1">
+                        <input type="reset" value="重置" class="btn2">
+                    </div>
+                    </form>
+                </div>
+            </form>
+                <!-- 数据显示板块 -->
+                <div class="item sheet">
+                    <span id="data">数据显示：</span>
+                    <table class="table_1">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>年级</th>
+                                <th>专业</th>
+                                <th>班级</th>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>学期</th>
+                                <th>绩点</th>
+                                <th>未修学分</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list_content">
+                            <tr>
+                                <td>1</td>
+                                <td>2019</td>
+                                <td>信息管理与信息系统</td>
+                                <td>2班</td>
+                                <td>190802100653</td>
+                                <td>吴清霞</td>
+                                <td>2022-2023-1</td>
+                                <td>4.1</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        <div class="page_turn">
+                            <span>转到</span>
+                            <input name="pageIndex" type="text" value="1" id="pageIndex">
+                        </div>
+                        <div class="page_amount">
+                            <span>共<span id="totalPages">2</span>页</span>
+                            <span><span id="totalSize">16</span>条</span>
+                        </div>
+                        <div class="page_btn">
+                            <a href="#" id="pre_page">&lt;</a>
+                            <a href="#" id="next_page">&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+    <script>
+        $("#download").click(function () {
+            location.href = "http://localhost:8012/gpa/tmp";
+        })
+    </script>
+
+    <script>
+        $("#gpa_increment").click(function () {
+            alert(new FormData($("#increment")[0]))
+            $.ajax({
+                url: "/gpa/import/increment",
+                type: "POST",
+                data: new FormData($("#increment")[0]),
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+                success: function (json) {
+                    if (json.code == 200){
+                        alert("上传成功");
+                    }else {
+                        alert("上传失败");
+                    }
+                },
+                error: function (xhr) {
+                    alert("上传文件产生未知异常," + xhr.msg)
+                }
+            });
+        })
+
+        $("#gpa_cover").click(function () {
+            $.ajax({
+                url: "/gpa/import/cover",
+                type: "POST",
+                data: new FormData($("#cover")[0]),
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+                success: function (json) {
+                    if (json.code == 200){
+                        alert("上传成功");
+                    }else {
+                        alert("上传失败");
+                    }
+                },
+                error: function (xhr) {
+                    alert("上传文件产生未知异常," + xhr.msg)
+                }
+            });
+        })
+    </script>
+
+    <script>//查看绩点列表显示
+    //页码
+    let page = 1;
+    let search_flag = 0;
+    let grade,major,stu_class,vio_detail,stu_id,stu_name,semester;
+    $(".btn1").click(function () {
+        if($("#grade").val() == "0" && $("#major").val() == "" && $("#class").val() == "" && $("#stu_id").val() == "" && $("#stu_name").val() == ""&& $("#semester").val() == ""){
+            page = 1;
+            search_flag = 0;
+            showListContent(page);
+        }else {
+            page = 1;
+            search_flag = 1;
+            grade = $("#grade").val();
+            major = $("#major").val();
+            stu_class = $("#class").val();
+            stu_id = $("#stu_id").val();
+            stu_name = $("#stu_name").val();
+            semester = $("#semester").val();
+            showSearchContent(1,grade,major,stu_class,stu_id,stu_name,semester);
+        }
+    })
+
+    //左右切换页面
+    $("#pre_page").click(function () {
+        if (page <= 1){
+            alert("此页为第一页");
+        }else {
+            page = page - 1;
+            if (search_flag == 0){
+                showListContent(page);
+            }else{
+                showSearchContent(page,grade,major,stu_class,stu_id,stu_name,semester);
+            }
+        }
+    })
+    $("#next_page").click(function () {
+        if (page == $("#totalPages").text()){
+            alert("此页为最后一页");
+        }else {
+            page++;
+            if (search_flag == 0){
+                showListContent(page);
+            }else{
+                showSearchContent(page,grade,major,stu_class,stu_id,stu_name,semester);
+            }
+        }
+    })
+
+    //输入页码跳转
+    $("#pageIndex").keydown(function (event) {
+        if (event.keyCode == 13){
+            if (parseInt($("#pageIndex").val()) >= 1 && parseInt($("#pageIndex").val()) <= parseInt($("#totalPages").text())){
+                page = $("#pageIndex").val();
+                if (search_flag == 0){
+                    showListContent(page);
+                }else{
+                    showSearchContent(page,grade,major,stu_class,stu_id,stu_name,semester);
+                }
+            }else {
+                alert("请输入1 ~ " + $("#totalPages").text() + "的页码");
+            }
+
+        }
+    })
+
+    $(document).ready(function () {
+        showListContent(page);
+    });
+
+    function showListContent(page) {
+        $("#list_content").empty();//清空tbody标签中的数据
+        //辅导员获取学个人绩点信息
+        $.ajax({
+            url: "/gpa/list",
+            type: "GET",
+            data: "pageNum=" + page + "&pageSize=4",
+            dataType: "JSON",
+            success: function (json) {
+                let list = json.data.content;
+                //console.log(list.length);
+                $("#totalSize").html(json.data.totalSize)
+                $("#totalPages").html(json.data.totalPages)
+                $("#pageIndex").val(page)
+                for (let i = 0; i < list.length; i++) {
+                    //alert(list[i].stu_Name);
+                    let tr = '<tr>\n' +
+                        '<td>#{number}</td>\n' +
+                        '<td>#{grade}</td>\n' +
+                        '<td>#{major}</td>\n' +
+                        '<td>#{stu_class}</td>\n' +
+                        '<td>#{stu_Id}</td>\n' +
+                        '<td>#{stu_Name}</td>\n' +
+                        '<td>#{semester}</td>\n' +
+                        '<td>#{GPA_score}</td>\n' +
+                        '<td>#{ungetcredit}</td>\n' +
+                        '</tr>';
+
+                    tr = tr.replace(/#{grade}/g, list[i].grade);
+                    tr = tr.replace(/#{major}/g, list[i].major);
+                    tr = tr.replace(/#{stu_class}/g, list[i].stu_class);
+                    tr = tr.replace(/#{stu_Id}/g, list[i].stu_Id);
+                    tr = tr.replace(/#{stu_Name}/g, list[i].stu_Name);
+                    tr = tr.replace(/#{semester}/g, list[i].semester);
+                    tr = tr.replace(/#{GPA_score}/g, list[i].gpa_score);
+                    tr = tr.replace(/#{ungetcredit}/g, list[i].ungetcredit);
+
+                    tr = tr.replace(/#{number}/g, i + 1 + (page - 1) * 4);
+
+                    $("#list_content").append(tr);
+                }
+            },
+            error: function (xhr) {
+                alert("数据加载产生未知异常," + xhr.msg)
+            }
+        });
+    }
+    function showSearchContent(page,grade,major,stu_class,stu_id,stu_name,semester){
+        $("#list_content").empty();//清空tbody标签中的数据
+        //辅导员查询获取学生绩点列表
+        $.ajax({
+            url: "/gpa/list/query",
+            type: "GET",
+            data: "pageNum=" + page + "&pageSize=4" + "&grade=" + grade + "&major=" + major + "&stu_class="
+                + stu_class + "&stu_Id=" + stu_id + "&stu_Name=" + stu_name
+                + "&semester=" + semester,
+            dataType: "JSON",
+            success: function (json) {
+                if (json.code == 200) {
+                    let list = json.data.content;
+                    //console.log(list.length);
+                    $("#totalSize").html(json.data.totalSize)
+                    $("#totalPages").html(json.data.totalPages)
+                    $("#pageIndex").val(page)
+                    for(let i = 0 ; i < list.length ; i++){
+                        //alert(list[i].stu_Name);
+                        let tr = '<tr>\n' +
+                            '<td>#{number}</td>\n' +
+                            '<td>#{grade}</td>\n' +
+                            '<td>#{major}</td>\n' +
+                            '<td>#{stu_class}</td>\n' +
+                            '<td>#{stu_Id}</td>\n' +
+                            '<td>#{stu_Name}</td>\n' +
+                            '<td>#{semester}</td>\n' +
+                            '<td>#{GPA_score}</td>\n' +
+                            '<td>#{ungetcredit}</td>\n' +
+                            '</tr>';
+
+                        tr = tr.replace(/#{grade}/g, list[i].grade);
+                        tr = tr.replace(/#{major}/g, list[i].major);
+                        tr = tr.replace(/#{stu_class}/g, list[i].stu_class);
+                        tr = tr.replace(/#{stu_Id}/g, list[i].stu_Id);
+                        tr = tr.replace(/#{stu_Name}/g, list[i].stu_Name);
+                        tr = tr.replace(/#{semester}/g, list[i].semester);
+                        tr = tr.replace(/#{GPA_score}/g, list[i].gpa_score);
+                        tr = tr.replace(/#{ungetcredit}/g, list[i].ungetcredit);
+
+                        tr = tr.replace(/#{number}/g , i + 1 + (page - 1) * 8);
+                        $("#list_content").append(tr);
+                    }
+                } else {
+                    alert('查无数据');
+                }
+            },
+            error: function (xhr) {
+                alert("查找时产生未知异常：" + xhr.msg);
+            }
+        });
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>填写违规违纪信息</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/teach_base.css">
+    <link rel="stylesheet" href="../../css/teach_vio_input.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="teach_vio_input.html">填写违规违纪信息</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <div class="item">
+                    <h2>上传学生违规违纪通报</h2>
+                    <hr>
+                    <form class="form_control">
+                        <div class="form_item">
+                            <label class="label_control">学号</label>
+                            <input type="text" required="required" class="input_control" id="stu_id">
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">学生姓名</label>
+                            <input type="text"  disabled="true" id="stu_Name">
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">违纪时间</label>
+                            <input type="date" required="required" class="input_control" id="vio_Time">
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">扣分分值</label>
+                            <input type="textarea" required="required" class="input_control" id="vio_Score" value="-">
+                        </div>
+                        <div class="form_item de_reason">
+                            <label class="label_control">扣分原因</label>
+                            <textarea class="input_control" cols="30" rows="10" id="vio_detail"></textarea>
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">处理负责人</label>
+                            <input type="text" disabled="true" class="name">
+                        </div>
+                        <div class="form_btn">
+                            <input type="button" value="提交" id="submit" class="f_btn" data-name="r-1">
+                            <input type="reset" value="重置" id="cancel">
+                        </div>    
+                    </form>
+                </div>
+            </div>
+
+<!--            &lt;!&ndash; 弹窗 &ndash;&gt;-->
+<!--            <div class="result-preview">-->
+<!--                <div class="preview" data-target="r-1">-->
+<!--                    <p>请确认通报学生信息</p>-->
+<!--                    <p>190802101234</p>-->
+<!--                    <p>张三</p>-->
+<!--                    <div class="buttons">-->
+<!--                        <input type="button" value="确认" class="r_operate confirm">-->
+<!--                        <input type="button" value="取消" class="r_operate cancel">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+<!--    <script src="../../js/teach_vio_input.js"></script>-->
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url:"/menter/name",
+                type:"GET",
+                data:$("#form_control").serialize(),
+                dataType:"JSON",
+                success:function(json){
+                    if (json.code == 200){
+                        $(".name").val(json.data)
+                    }
+                    else{
+                        alert('用户信息不存在');
+                    }
+                },
+                error:function(xhr){
+                    alert("查询用户信息产生未知异常："+xhr.msg);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $("#stu_id").bind("input propertychange",function (){
+            if($("#stu_id").val().length==12){
+                $.ajax({
+                    url:"/student/input/name",
+                    type:"GET",
+                    data: "stu_Id=" + $("#stu_id").val(),
+                    dataType:"JSON",
+                    success:function(json){
+                        if (json.code == 200){
+                            $("#stu_Name").val(json.data)
+                        }
+                        else{
+                            alert('用户信息不存在');
+                        }
+                    },
+                    error:function(xhr){
+                        alert("查询用户信息产生未知异常："+xhr.msg);
+                    }
+                });
+            }
+        })
+    </script>
+
+    <script>
+        $("#submit").click(function () {
+            if (parseFloat($("#vio_Score").val()) <= 0.0){
+                $.ajax({
+                    url: "/violation/entry",
+                    type: "POST",
+                    data: "stu_Id=" + $("#stu_id").val() + "&vio_Time=" + $("#vio_Time").val()+"&vio_Score="
+                        + $("#vio_Score").val()+ "&vio_detail=" + $("#vio_detail").val() ,
+                    dataType : "JSON",
+                    success : function (json) {
+                        if (json.code == 200){
+                            alert('录入成功');
+                            window.location.reload();
+                        }
+                        else{
+                            alert('录入失败,数据已存在或格式出错');
+                        }
+                    },
+                    error : function (xhr) {
+                        alert("录入时产生未知异常," + xhr.detailMessage)
+                    }
+                });
+            }else {
+                alert("扣分分值应为负值")
+            }
+
+        })
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+    

@@ -1,0 +1,38 @@
+/* 学生综测成绩css */
+.content .item {
+    margin:10px 5px;
+    width: 100%;   
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+    font-weight: normal;            
+}
+
+.content .item {
+    height: 600px;
+}
+
+.content .item .table_control {
+    margin: 10px 10px 5px 5px;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.content .item .table_control tr th {
+    background: rgb(2, 62, 118);
+    color: #fff;
+    border-right: 1px solid #fff;
+    padding:10px 5px;
+}
+ 
+.content .item .table_control tr td {
+    font-size: 14px;
+    padding: 10px 5px; 
+    border-bottom:1px solid rgb(206, 206, 206);
+}
+
+.td > a:hover,
+.td > a:active{
+    background-color: rgb(228, 64, 64);
+}

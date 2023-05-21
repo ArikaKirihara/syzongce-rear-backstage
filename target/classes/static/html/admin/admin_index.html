@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员首页</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/admin_base.css">
+<!--    <link rel="stylesheet" href="../../fontawesome-free-6.2.0-web/css/all.min.css">-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar Start -->
+        <div class="sidebar">
+            <div class="bg-shadow"></div>
+
+            <div class="sidebar_inner">
+                <div class="side_top"></div>
+                <div class="close">
+                    <i class="fa-sharp fa-solid fa-xmark"></i>
+                </div>
+                <!-- 登陆情况 -->
+                <div class="profile_info">
+                    <div class="profile_img">
+                        <img src="../../images/sidebar/touxiang.png" alt="头像">
+                    </div>
+                    <div class="profile_data">
+                        <p class="name">JACK，欢迎您！</p>
+                        <a href="./admin_password.html" target="myifm" >修改密码</a>
+                    </div>
+                </div>
+                <!-- 侧边栏表单 -->
+                <ul class="sidebar_menu">
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class="title">公告信息管理</div>
+                            <div class="arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion">
+                            <li><a href="./admin_notice.html" target="myifm" >查看公告信息</a></li>
+                            <li><a href="./admin_publish.html" target="myifm" >发布公告信息</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa-solid fa-table-list"></i>
+                            </div>
+                            <div class="title">综合素质测评</div>
+                            <div class="arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion">
+                            <li><a href="./admin_check.html" target="myifm" >综测审核记录</a></li>
+                            <li><a href="./admin_export.html" target="myifm" >总评成绩管理</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="../stu/stu_base_information.html" target="myifm">
+                            <div class="icon">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="title">学生基本信息管理</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa-solid fa-ruler"></i>
+                            </div>
+                            <div class="title">评分细则管理</div>
+                            <div class="arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion accordion1">
+                            <li><a href="./admin_moduel.html" target="myifm" >模块分类管理</a></li>
+                            <li><a href="./admin_project.html" target="myifm" >项目分类管理</a></li>
+                            <li><a href="./admin_grade.html" target="myifm">成果级别管理</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="logout_btn">
+                    <a>退出登录</a>
+                </div>
+            </div>
+        </div>
+        <!-- sidebar END -->
+        <div class="banner" >
+            <iframe src="./admin_notice.html" frameBorder="0" name="myifm" id="myifm"></iframe>
+        </div>
+
+    </div>
+
+
+    <script src="../../js/base.js"></script>
+    <script src="../../js/admin_grade.js"></script>
+<!--    <script>-->
+<!--        $(document).ready(function () {-->
+<!--            $(".name").html('<%=session.getAttribute("admin_Name").toString()%>' + "，欢迎您！");-->
+<!--        });-->
+<!--    </script>-->
+    <script>
+
+        $('.logout_btn').click(function (){
+            $.ajax({
+                url:"/admin/logout",
+                type:"POST",
+                dataType:"JSON",
+                success:function(json){
+                    if (json.code == 200){
+                        alert('成功退出');
+                        location.href = "../login.html";
+                    }
+                    else{
+                        alert('退出失败');
+                    }
+                },
+                error:function(xhr){
+                    alert("退出产生未知异常："+xhr.msg);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

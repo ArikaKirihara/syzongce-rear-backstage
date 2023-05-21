@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* 我的资料css */
+/*.content{*/
+/*    padding: 30px;*/
+/*}*/
+
+.item{
+    margin: auto;
+    width: 90%;
+    height: 600px;
+    font-size: 18px;
+	/*每个字之间的间距*/
+	letter-spacing: 2px;
+    color: rgb(67, 108, 168);
+    text-align: center;
+}
+
+.form_control{
+    padding: 70px 0;
+    width: 100%;
+}
+
+.form_item{
+    margin-top: 20px;
+}
+
+.label_control{
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    font-weight: 700;   
+    text-align: right;
+    /* text-align-last: justify; */
+}
+
+.input_control{
+    background-color: rgb(238,238,238);
+    border: 1px solid #ccc;
+    font-size: 18px;
+    width: 30%;
+    height: 30px;
+    border-radius: 3%;
+}

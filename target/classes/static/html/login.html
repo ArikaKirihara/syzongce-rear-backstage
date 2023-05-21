@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ch-ZH">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="icon" href="../images/icon.jpg">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <p>商学院综合素质测评系统</p>
+    </header>
+    <div class="banner">
+        <form class="login">
+            <p id="user">用户登录</p>
+            <div class="user">用户名
+                <input id="username" type="text" placeholder="请输入学号/工号" minlength="12" maxlength="12" required="required">
+            </div>
+            <div class="password">密码&nbsp;&nbsp;&nbsp;&nbsp;
+                <input id="password" type="password" placeholder="请输入密码" maxlength="18" required="required">
+            </div>
+            <div class="role">
+                <input type="radio" name="role" value="0" id="admin">
+                <label for="admin">管理员登录</label>
+                <input type="radio" name="role" value="1" id="menter">
+                <label for="menter">辅导员登录</label>
+                <input type="radio" name="role" value="2" id="student">
+                <label for="student">学生登录</label>
+            </div>
+            <div class="logbtn"><input type="button" id="login_btn" class="login_btn" value="登录"></div>
+        </form>
+    </div>
+    <script src="../js/username_check.js"></script>
+    <script>
+        $("#login_btn").click(function(){
+            var role = $('input:radio[name="role"]:checked').val();
+            if(!role){
+                alert("请选择登录身份");
+            }
+            let username = $('#username').val();
+            let pwd = $('#password').val();
+
+            var retNumLen = /\b\S{6,20}\b/;
+            var retNum = /^[^!@#$%^&*()+=~`{}[\]\\|:;'"<>?/]+$/;
+            if(retNumLen.test(pwd) && retNum.test(pwd)){
+                switch(role){
+                    case "0":
+                        $.ajax({
+                            url:"/admin/login",
+                            type:"POST",
+                            data:"admin_Id="+username+"&admin_Pwd="+pwd,
+                            dataType:"JSON",
+                            success:function(json){
+                                if (json.code == 200){
+                                    alert('登录成功');
+                                    location.href = "./admin/admin_index.html";
+                                }
+                                else{
+                                    alert('登录失败');
+                                }
+                            },
+                            error:function(xhr){
+                                alert("登录产生未知异常："+xhr.msg);
+                            }
+                        });
+                        break;
+
+                    case "1":
+                        $.ajax({
+                            url:"/menter/login",
+                            type:"POST",
+                            data:"menter_Id="+username+"&m_Pwd="+pwd,
+                            dataType:"JSON",
+                            success:function(json){
+                                if (json.code == 200){
+                                    alert('登录成功');
+                                    location.href = "./teach/teach_index.html";
+                                }
+                                else{
+                                    alert('登录失败');
+                                }
+                            },
+                            error:function(xhr){
+                                alert("登录产生未知异常："+xhr.msg);
+                            }
+                        });
+                        break;
+
+                    case "2":
+                        $.ajax({
+                            url:"/student/login",
+                            type:"POST",
+                            data:"stu_Id="+username+"&stu_Pwd="+pwd,
+                            dataType:"JSON",
+                            success:function(json){
+                                if (json.code == 200){
+                                    alert('登录成功');
+                                    location.href = "./stu/stu_index.html";
+                                }
+                                else{
+                                    alert('登录失败');
+                                }
+                            },
+                            error:function(xhr){
+                                alert("登录产生未知异常："+xhr.msg);
+                            }
+                        });
+                        break;
+                }
+            }else{
+                alert("密码需为6~20位字符\n且不包含非法字符（!@#$%^&*()+=~`{}[]\|:;'"+'"'+"<>?/)");
+            }
+
+        });
+    </script>
+</body>
+
+</html>

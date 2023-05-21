@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生首页</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/stu_base.css">
+    <link rel="stylesheet" href="../../css/stu_notice.css">
+<!--    <link rel="stylesheet" href="../../fontawesome-free-6.2.0-web/css/all.min.css">-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar Start -->
+        <div class="sidebar">
+            <div class="bg-shadow"></div>
+
+            <div class="sidebar_inner">
+                <div class="side_top"></div>
+                <div class="close">
+                    <i class="fa-sharp fa-solid fa-xmark"></i>
+                </div>
+                <!-- 登陆情况 -->
+                <div class="profile_info">
+                    <div class="profile_img">
+                        <img src="../../images/sidebar/touxiang.png" alt="头像">
+                    </div>
+                    <div class="profile_data">
+                        <p class="name">请登录</p>
+                        <a href="./stud_password.html" target="myifm">修改密码</a>
+                    </div>
+                </div>
+                <!-- 侧边栏表单 -->
+                <ul class="sidebar_menu">
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa-solid fa-file-invoice"></i>
+                            </div>
+                            <div class="title">综合素质评价</div>
+                            <div class="arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion">
+                            <li><a href="./stud_apply.html" target="myifm">提交认证申请</a></li>
+                            <li><a href="./stud_apply_result.html" target="myifm">查看申请结果</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="./stud_performance.html" target="myifm">
+                            <div class="icon">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div class="title">个人综测情况</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./stud_information.html" target="myifm">
+                            <div class="icon">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="title">我的资料</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="myifm">
+                            <div class="icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class="title">综合通知</div>
+                            <div class="arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion">
+                            <li><a href="./stu_notice.html" target="myifm">公告通知</a></li>
+                            <li><a href="./stud_violations.html" target="myifm">违纪记录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="logout_btn">
+                    <a href="../login.html">退出登录</a>
+                </div>
+            </div>
+        </div>
+        <!-- sidebar END -->
+        <div class="banner" >
+            <iframe src="./stu_notice.html" frameBorder="0" name="myifm" id="myifm"></iframe>
+        </div>
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url:"/student/name",
+                type:"GET",
+                data:$("#form_control").serialize(),
+                dataType:"JSON",
+                success:function(json){
+                    if (json.code == 200){
+                        $(".name").html(json.data + "，欢迎您！")
+                    }
+                    else{
+                        alert('用户信息不存在');
+                    }
+                },
+                error:function(xhr){
+                    alert("查询用户信息产生未知异常："+xhr.msg);
+                }
+            });
+        });
+    </script>
+    <script>
+        $('.logout_btn').click(function (){
+            $.ajax({
+                url:"/student/logout",
+                type:"POST",
+                dataType:"JSON",
+                success:function(json){
+                    if (json.code == 200){
+                        alert('成功退出');
+                        location.href = "../login.html";
+
+                    }
+                    else{
+                        alert('退出失败');
+                    }
+                },
+                error:function(xhr){
+                    alert("退出产生未知异常："+xhr.msg);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

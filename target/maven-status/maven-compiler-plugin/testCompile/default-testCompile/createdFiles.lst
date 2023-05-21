@@ -1,0 +1,5 @@
+com\sxy\zongce\mapper\StudentMapperTest.class
+com\sxy\zongce\service\impl\ApplicationServiceImplTest.class
+com\sxy\zongce\service\impl\StudentServiceImplTest.class
+com\sxy\zongce\service\impl\AdminServiceImplTest.class
+com\sxy\zongce\service\impl\MenterServiceImplTest.class

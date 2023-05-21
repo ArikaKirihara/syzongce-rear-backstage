@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.AwardLeverMapper">
+    <resultMap id="AwardLeverResultMap" type="com.sxy.zongce.entity.AwardLever">
+        <id column="awl_Id" property="awl_Id" jdbcType="VARCHAR"/>
+        <result column="awl_Detail" property="awl_Detail" jdbcType="VARCHAR"/>
+        <result column="awl_Score" property="awl_Score" jdbcType="FLOAT"/>
+        <result column="awl_Display" property="awl_Display" jdbcType="CHAR"/>
+        <result column="pro_Id" property="pro_Id" jdbcType="VARCHAR"/>
+        <result column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联模板分类表 -->
+        <association property="template" javaType="Template">
+            <result column="tem_Name" property="tem_Name" jdbcType="VARCHAR"/>
+        </association>
+
+        <!-- 一对一关联项目类型表 -->
+        <association property="project" javaType="Project">
+            <result column="pro_Name" property="pro_Name" jdbcType="VARCHAR"/>
+        </association>
+
+        <!-- 一对一关联管理员表 -->
+        <association property="admin" javaType="Admin">
+            <result column="admin_Name" property="admin_Name" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="AwardLeverResultMap" resultType="com.sxy.zongce.entity.AwardLever">
+        SELECT * FROM awardlever,project,template
+        WHERE awardlever.pro_Id = project.pro_Id
+        AND project.tem_Id = template.tem_Id
+    </select>
+
+    <select id="findMaxId" resultType="String">
+        SELECT MAX(awl_Id) FROM awardlever
+    </select>
+
+    <!-- 根据管理员id查询所有成果级别 -->
+    <select id="findAllAwardLever" resultType="com.sxy.zongce.vo.AwardLeverVo">
+        SELECT awl_Id,tem_Name,pro_Name, awl_Detail,awl_Score,awl_Display,project.pro_Id,template.tem_Id
+        FROM awardlever,template,project
+        WHERE awardlever. pro_Id = project.pro_Id
+          AND project.tem_Id = template.tem_Id
+          AND awardlever.admin_Id = #{admin_Id}
+    </select>
+
+    <!-- 根据id更改成果级别状态 -->
+    <update id="updateAwardLeverById" parameterType="com.sxy.zongce.entity.AwardLever">
+        UPDATE awardlever
+        SET awl_Display = IF(awl_Display = '是', '否', '是')
+        WHERE awl_Id = #{awl_Id}
+    </update>
+
+    <!-- 添加成果级别 -->
+    <insert id="addAwardLever" parameterType="com.sxy.zongce.entity.AwardLever">
+        INSERT INTO awardlever
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test=" awl_Id != null">awl_Id,</if>
+            <if test=" awl_Detail != null">awl_Detail,</if>
+            <if test=" awl_Score != null">awl_Score,</if>
+            <if test=" pro_Id != null">pro_Id,</if>
+            <if test=" admin_Id != null">admin_Id,</if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test=" awl_Id != null">#{ awl_Id, jdbcType= VARCHAR },</if>
+            <if test=" awl_Detail != null">#{ awl_Detail, jdbcType= VARCHAR },</if>
+            <if test=" awl_Score != null">#{ awl_Score, jdbcType= VARCHAR },</if>
+            <if test=" pro_Id != null">#{ pro_Id, jdbcType= VARCHAR },</if>
+            <if test=" admin_Id != null">#{ admin_Id, jdbcType= VARCHAR },</if>
+        </trim>
+    </insert>
+
+    <!-- 根据id获取成果级别的分值 -->
+    <select id="findScoreById" resultType="float">
+        SELECT awl_Score FROM awardlever WHERE awl_Id = #{awl_Id}
+    </select>
+
+    <!-- 根据学生id和项目类型id查询成果级别名称和成果级别id -->
+    <select id="findAwardLever" resultType="com.sxy.zongce.entity.AwardLever">
+        SELECT awl_Id,awl_Detail,awardlever.pro_Id FROM awardlever,project,menter,student
+        WHERE awl_Display = '是'
+          AND awardlever.pro_Id = project.pro_Id
+          AND awardlever.admin_Id = menter.admin_Id
+          AND menter.menter_Id = student.menter_Id
+          AND awardlever.pro_Id = #{pro_Id}
+          AND stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 根据管理员id和模板分类id筛选项目类型 -->
+    <select id="findAwlByPro" resultType="com.sxy.zongce.vo.AwardLeverVo">
+        SELECT awardlever.pro_Id,awl_Id,pro_Name,awl_Detail,awl_Score,awl_Display
+        FROM awardlever,project
+        WHERE awardlever.pro_Id = project.pro_Id
+          AND awardlever.admin_Id = #{admin_Id}
+          AND awardlever.pro_Id = #{pro_Id}
+    </select>
+    <!-- 根据id查询成果级别可见性 -->
+    <select id="isVisible" resultType="String">
+        SELECT awl_Display FROM awardlever WHERE awl_Id = #{awl_Id}
+    </select>
+
+</mapper>

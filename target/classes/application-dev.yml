@@ -1,0 +1,46 @@
+server:
+  port: 8012
+  servlet:
+    session:
+      timeout: 14400 #session有效时间为4小时
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 3MB
+      max-request-size: 3MB
+      file-size-threshold: 2KB # 文件写入磁盘的阈值
+#      location: /static/upload
+
+  datasource:
+    username: root
+    password: 658275
+    url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=UTC&useSSL=false&autoReconncet=true&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    prefix: /static/**
+    suffix: .html
+
+  web:
+    resources:
+      static-locations: classpath:/resources/,classpath:/static/,classpath:/templates/
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.sxy.zongce.entity
+
+#showSql
+logging:
+  level:
+    com.sxy.zongce.mapper: debug
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count = countSql

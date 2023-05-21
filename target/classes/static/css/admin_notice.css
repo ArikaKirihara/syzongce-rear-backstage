@@ -1,0 +1,196 @@
+@charset "utf-8";
+
+/* CSS Document */
+@charset "utf-8";
+
+/* CSS Document */
+.content .item {
+    margin:10px 5px;
+    width: 100%;   
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+    font-weight: normal;            
+}
+
+.content .sheet {
+    height: 600px;
+}
+
+.content .sheet h2 {
+    margin: 10px 5px;
+}
+
+.content .sheet .table_1 {
+    margin: 10px 5px;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.content .sheet .table_1 tr {
+    text-align: center;
+}
+
+.content .sheet .table_1 tr td {
+    font-size: 14px;
+    text-align: center;
+    float: center;
+    height: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;    
+}
+
+.no_title {
+    float:left;
+}
+
+.no_title a:visited {
+    color: #000;
+}
+
+.no_title a:hover {
+    color: rgb(11, 140, 245);
+}
+
+.no_title a:active {
+    color: red;
+}
+
+.content .sheet .table_1 .t_btn {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.content .sheet .table_1 .t_btn > input {
+    width:50px;
+    height: 25px;
+    float: center;
+    margin-right: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+}
+
+.content .sheet .table_1 .t_btn .btn3 {
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+}
+
+.content .sheet .table_1 .t_btn .btn3:hover {
+    background-color: rgb(60, 163, 248);
+}
+
+.content .sheet .table_1 .t_btn .btn3:active {
+    background-color: rgb(6, 81, 143);
+}
+
+.content .sheet .table_1 .t_btn .btn4 {
+    color: #fff;
+    background-color: rgb(227, 20, 20);
+}
+
+.content .sheet .table_1 .t_btn .btn4:hover {
+    background-color: rgb(228, 64, 64);
+}
+
+.content .sheet .table_1 .t_btn .btn4:active {
+    background-color: rgb(175, 17, 17);
+}
+
+.content .item .page {
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+}
+
+.content .item .page a {
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    border: 1px solid #ccc;
+    width: 44px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: rgb(251, 251, 251);
+    text-decoration: none;
+}
+
+.content .item .page .page_turn ,
+.content .item .page .page_amount ,
+.content .item .page .page_btn {
+    display: inline-block;
+    height: 25px;
+}
+
+.content .item .page .page_turn #pageIndex {
+    width: 35px;
+    height: 20px;
+    text-align: center;
+}
+
+.content .item .page a:hover {
+    background: #1db69a;
+    color: #fff;
+    border: 1px solid #1db69a;
+}
+
+.result-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, .8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-preview p {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.result-preview .preview1 {
+    display: none;
+    padding: 3rem;
+    text-align: center;
+    background: #fff;
+    position: relative;
+    width: 30rem;
+    margin-left: 10%;
+}
+
+.result-preview .preview1.active {
+    display: inline-block;
+}
+
+.result-preview .preview1 .buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 10px;
+}
+
+.result-preview .preview1 .buttons .confirm {
+    width: 60px;
+    height: 30px;
+    background-color: rgb(0, 21, 41);
+    color: #fff;
+    border-radius: 5%;
+    border: 1px solid #ccc;
+}
+
+.result-preview .preview1 .buttons .cancel {
+    width: 60px;
+    height: 30px;
+    border-radius: 5%;
+    border: 1px solid #ccc;
+}

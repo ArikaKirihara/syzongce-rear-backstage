@@ -1,0 +1,268 @@
+@charset "utf-8";
+/* CSS Document */
+.content .item {
+    margin:10px 5px;
+    width: 100%;   
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+    font-weight: normal;            
+}
+.content form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+/* 导入模块 */
+.content .item .import {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.content .item .import .left,
+.content .item .import .right {
+    width: 500px;  
+}
+
+.import .text1 {
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    color: rgb(43, 62, 81);
+    font-weight: bold;
+}
+
+.content .item .import p {
+    margin:3px 100px;
+}
+
+.content .item .import p .note {
+    display: block;
+    font-size: 12px;
+    font-family: 'Microsoft YaHei';
+    color: red;
+}
+
+.content .item .import button {
+    width: 70px;
+    height: 30px;
+}
+
+.content .item .import .btn2 {
+    margin-left: 103px;
+    color: #fff;
+    background-color: rgb(0, 186, 173);
+    border: 1px solid rgb(130, 174, 172);
+    border-radius: 5%;
+}
+
+
+/* 搜索模块 */
+.content .filter {
+    display: flex;
+    justify-content: space-between;
+}
+
+.content .filter .select { 
+    width: 60%;
+    margin-top: 8px;
+    margin-left: 5px; 
+    margin-bottom: 8px;
+}
+
+.content .filter .select .above {
+    display: flex;
+    justify-content: space-between;
+}
+.content .filter .select .below {
+    display: flex;
+    justify-content: space-between;
+}
+
+.content .filter .select .selitem { 
+    display: flex;
+    justify-content: space-between;
+}
+
+.content .filter .select .above {
+    margin-bottom: 10px;
+}
+
+.content .filter .select .selitem1 label{
+    width: 51px;
+}
+
+.content .filter .operate {
+    display: flex;
+    width: 170px;
+    justify-content: space-between;
+    margin-right: 100px;
+    margin-top: 30px;
+}
+
+.content .filter .operate > input {
+    width: 60px;
+    height: 30px;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+}
+
+.content .filter .operate .btn1 {
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+}
+
+.content .filter .operate .btn1:hover {
+    background-color: rgb(60, 163, 248);
+}
+
+.content .filter .operate .btn1:active {
+    background-color: rgb(9, 84, 145);
+}
+
+.content .filter .operate .btn2 {
+    color: #000;
+    background-color: rgb(255, 255, 255);
+}
+
+.content .filter .operate .btn2:hover {
+    color: rgb(24, 144, 255);
+    background-color: rgb(208, 208, 208);
+}
+
+.content .filter .operate .btn2:active {
+    background-color: rgb(148, 148, 148);
+}
+
+/* 列表 */
+.content .sheet {
+    height: 300px;
+}
+.content .sheet .table_1 {
+    margin: 10px 10px 5px 5px;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.content .sheet .table_1 tr th {
+    background: rgb(2, 62, 118);
+    color: #fff;
+    border-right: 1px solid #fff;
+    padding:10px 5px;
+}
+ 
+.content .sheet .table_1 tr td {
+    font-size: 14px;
+    padding: 10px 5px; 
+    border-bottom:1px solid rgb(206, 206, 206);
+}
+
+.content .sheet .table_1 .t_btn {
+    display: flex;
+    justify-content: space-around;
+}
+
+.content .sheet .table_1 .t_btn > input {
+    width:50px;
+    height: 25px;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+}
+
+.content .sheet .table_1 .t_btn .btn3 {
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+}
+
+.content .sheet .table_1 .t_btn .btn3:hover {
+    background-color: rgb(60, 163, 248);
+}
+
+.content .sheet .table_1 .t_btn .btn3:active {
+    background-color: rgb(6, 81, 143);
+}
+
+.content .sheet .table_1 .t_btn .btn4 {
+    color: #fff;
+    background-color: rgb(227, 20, 20);
+}
+
+.content .sheet .table_1 .t_btn .btn4:hover {
+    background-color: rgb(228, 64, 64);
+}
+
+.content .sheet .table_1 .t_btn .btn4:active {
+    background-color: rgb(175, 17, 17);
+}
+
+.content .item .page {
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+}
+
+.content .item .page a {
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    border: 1px solid #ccc;
+    width: 44px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: rgb(251, 251, 251);
+    text-decoration: none;
+}
+
+.content .item .page .page_turn ,
+.content .item .page .page_amount ,
+.content .item .page .page_btn {
+    display: inline-block;
+    height: 25px;
+}
+
+.content .item .page .page_turn #pageIndex {
+    width: 35px;
+    height: 20px;
+    text-align: center;
+}
+
+.content .item .page a:hover {
+    background: #1db69a;
+    color: #fff;
+    border: 1px solid #1db69a;
+}
+#download {
+    width: 70px;
+    height: 30px;
+    color: #fff;
+    background-color: rgb(2, 62, 118);
+    text-align: center;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 5%;
+}
+
+.selcontent {
+    width: 165px;
+}
+
+#data {
+    margin-left: 5px;
+}
+
+
+
+

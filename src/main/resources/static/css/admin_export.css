@@ -1,0 +1,196 @@
+@charset "utf-8";
+/* CSS Document */
+/* 导出成绩 */
+.content .item {
+    margin:10px 5px;
+    width: 100%;   
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+    font-weight: normal;            
+}
+
+.content form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.content .filter {
+    display: flex;
+    justify-content: space-between;
+}
+
+.content .filter .select { 
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 8px;
+    margin-left: 5px; 
+    margin-bottom: 8px;
+}
+
+
+.content .filter .select .above {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap:wrap; 
+    margin-left: 5px;
+}
+.content .filter .select .below {
+    float: right;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content .filter .select .selitem { 
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:10px;
+}
+
+.content .filter .select .selitem1 label{
+    width: 51px;
+}
+
+.content .filter .operate {
+    display: flex;
+    width: 170px;
+    justify-content: space-between;
+    margin-right: 100px;
+    margin-top: 30px;
+}
+
+.content .filter .operate > input {
+    width: 60px;
+    height: 30px;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+}
+
+.content .filter .operate .btn1 {
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+}
+
+.content .filter .operate .btn1:hover {
+    background-color: rgb(60, 163, 248);
+}
+
+.content .filter .operate .btn1:active {
+    background-color: rgb(9, 84, 145);
+}
+
+.content .filter .operate .btn2 {
+    color: #000;
+    background-color: rgb(255, 255, 255);
+}
+
+.content .filter .operate .btn2:hover {
+    color: rgb(24, 144, 255);
+    background-color: rgb(208, 208, 208);
+}
+
+.content .filter .operate .btn2:active {
+    background-color: rgb(148, 148, 148);
+}
+
+
+/* 列表 */
+.content .sheet {
+    height: 480px;
+}
+
+.export{
+    width: 80px;
+    height: 30px;
+    float: right;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+    margin-bottom: 10px;
+}
+
+.export:hover,
+.export:active{
+    background-color: rgb(60, 163, 248);
+}
+
+.content .sheet .table_1 {
+    margin: 10px 10px 5px 5px;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.content .sheet .table_1 tr th {
+    background: rgb(2, 62, 118);
+    color: #fff;
+    border-right: 1px solid #fff;
+    padding:10px 5px;
+}
+ 
+.content .sheet .table_1 tr td {
+    font-size: 14px;
+    padding: 10px 5px; 
+    border-bottom:1px solid rgb(206, 206, 206);
+}
+
+.content .item .page {
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+}
+
+.content .item .page a {
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    border: 1px solid #ccc;
+    width: 44px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: rgb(251, 251, 251);
+    text-decoration: none;
+}
+
+.content .item .page .page_turn ,
+.content .item .page .page_amount ,
+.content .item .page .page_btn {
+    display: inline-block;
+    height: 25px;
+}
+
+.content .item .page .page_turn #pageIndex {
+    width: 35px;
+    height: 20px;
+    text-align: center;
+}
+
+.content .item .page a:hover {
+    background: #1db69a;
+    color: #fff;
+    border: 1px solid #1db69a;
+}
+
+.selcontent {
+    width: 165px;
+}
+
+/*#under {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.NoticeMapper">
+    <resultMap id="NoticeResultMap" type="com.sxy.zongce.entity.Notice">
+        <id column="notice_Id" property="notice_Id" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="create_Time" property="create_Time" jdbcType="DATE"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联管理员表 -->
+        <association property="admin" javaType="Admin">
+            <result column="admin_Name" property="admin_Name" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="NoticeResultMap" resultType="com.sxy.zongce.entity.Notice">
+        SELECT * FROM notice,admin WHERE notice.admin_Id = admin.admin_Id
+    </select>
+
+    <!-- 查询公告最大的id，用于生成自增id -->
+    <select id="findMaxId" resultType="String">
+        SELECT MAX(notice_Id) FROM notice
+    </select>
+
+    <!-- 查询公告是否存在 -->
+    <select id="isExist" resultType="com.sxy.zongce.entity.Notice">
+        SELECT * FROM notice WHERE notice_Id = #{notice_Id}
+    </select>
+
+    <!-- 查询所有公告id、标题、发布时间和内容（链接），按发布时间降序 -->
+    <select id="findAllNotice" resultType="com.sxy.zongce.entity.Notice">
+        SELECT notice_Id,title,create_time,content FROM notice ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据id删除公告 -->
+    <delete id="deleteNoticeById" parameterType="String">
+        DELETE FROM notice WHERE notice_Id = #{notice_Id}
+    </delete>
+
+    <!-- 添加公告 -->
+    <insert id="addNotice" parameterType="com.sxy.zongce.entity.Notice">
+        INSERT INTO notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="notice_Id != null">notice_Id,</if>
+            <if test="title != null">title,</if>
+            create_Time,
+            <if test="content != null">content,</if>
+            <if test="admin_Id!= null">admin_Id</if>
+
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test=" notice_Id != null">#{ notice_Id, jdbcType= VARCHAR },</if>
+            <if test=" title != null">#{ title, jdbcType= VARCHAR },</if>
+            NOW(),
+            <if test=" content != null">#{ content, jdbcType= VARCHAR },</if>
+            <if test=" admin_Id != null">#{ admin_Id, jdbcType= VARCHAR }</if>
+        </trim>
+
+    </insert>
+
+    <!-- 根据id修改单个公告 -->
+    <update id="updateNoticeById" parameterType="com.sxy.zongce.entity.Notice">
+        UPDATE notice
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            create_Time = NOW()
+        </set>
+        WHERE notice_Id = #{notice_Id}
+    </update>
+
+    <!-- 模糊查询标题 -->
+    <select id="searchNotice" resultType="com.sxy.zongce.entity.Notice">
+        SELECT notice_Id, title, create_Time FROM notice WHERE title LIKE CONCAT('%','${title}','%')
+    </select>
+
+    <!-- 根据id获取待修改公告 -->
+    <select id="getNotice" resultType="com.sxy.zongce.entity.Notice">
+        SELECT notice_Id, title, content FROM notice WHERE notice_Id = #{notice_id}
+    </select>
+</mapper>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.AdminMapper">
+    <resultMap id="AdminResultMap" type="com.sxy.zongce.entity.Admin">
+        <id column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+        <result column="admin_Pwd" property="admin_Pwd" jdbcType="VARCHAR"/>
+        <result column="admin_Name" property="admin_Name" jdbcType="VARCHAR"/>
+        <result column="admin_Dept" property="admin_Dept" jdbcType="VARCHAR"/>
+        <!-- 一对多关联辅导员表 -->
+        <collection property="menters" ofType="Menter" javaType="List">
+            <id column="menter_Id" property="menter_Id" jdbcType="VARCHAR"/>
+            <result column="m_Name" property="m_Name" jdbcType="VARCHAR"/>
+        </collection>
+        <!-- 一对多关联学生表 -->
+        <collection property="students" ofType="Student" javaType="List">
+            <id column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+            <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+            <result column="major" property="major" jdbcType="VARCHAR"/>
+            <result column="grade" property="grade" jdbcType="NUMERIC"/>
+            <result column="stu_class" property="stu_class" jdbcType="VARCHAR"/>
+        </collection>
+        <!-- 一对多关联公告表 -->
+        <collection property="notices" ofType="Notice" javaType="List">
+            <id column="notice_Id" property="notice_Id" jdbcType="VARCHAR"/>
+            <result column="create_Time" property="create_Time" jdbcType="DATE"/>
+            <result column="content" property="content" jdbcType="VARCHAR"/>
+        </collection>
+        <!-- 一对多关联模板分类表 -->
+        <collection property="templates" ofType="Template" javaType="List">
+            <id column="tem_Id" property="tem_Id" jdbcType="VARCHAR"/>
+            <result column="tem_Name" property="tem_Name" jdbcType="VARCHAR"/>
+            <result column="tem_Display" property="tem_Display" jdbcType="CHAR"/>
+        </collection>
+        <!-- 一对多关联项目类型表 -->
+        <collection property="projects" ofType="Project" javaType="List">
+            <id column="pro_Id" property="pro_Id" jdbcType="VARCHAR"/>
+            <result column="pro_Name" property="pro_Name" jdbcType="VARCHAR"/>
+            <result column="pro_Display" property="pro_Display" jdbcType="CHAR"/>
+        </collection>
+        <!-- 一对多关联成果级别表 -->
+        <collection property="awardLevers" ofType="AwardLever" javaType="List">
+            <id column="awl_Id" property="awl_Id" jdbcType="VARCHAR"/>
+            <result column="awl_Detail" property="awl_Detail" jdbcType="VARCHAR"/>
+            <result column="awl_Score" property="awl_Score" jdbcType="FLOAT"/>
+            <result column="awl_Display" property="awl_Display" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="scoreByAdmin" type="com.sxy.zongce.vo.ScoreVo">
+        <result column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+        <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+        <result column="ungetcredit" property="ungetcredit" jdbcType="FLOAT"/>
+        <result column="total_GPA" property="total_GPA" jdbcType="FLOAT"/>
+        <result column="total_moral" property="total_moral" jdbcType="FLOAT"/>
+        <result column="total_competition" property="total_competition" jdbcType="FLOAT"/>
+        <result column="total_innovate" property="total_innovate" jdbcType="FLOAT"/>
+        <result column="total_publicwelfare" property="total_publicwelfare" jdbcType="FLOAT"/>
+        <result column="total_elsepoint" property="total_elsepoint" jdbcType="FLOAT"/>
+        <result column="total_violate" property="total_violate" jdbcType="FLOAT"/>
+        <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        <result column="total_score" property="total_score" jdbcType="FLOAT"/>
+        <result column="ranking" property="ranking" jdbcType="NUMERIC"/>
+        <result column="pageIndex" property="pageIndex" jdbcType="NUMERIC"/>
+        <result column="pageSize" property="pageSize" jdbcType="NUMERIC"/>
+        <result column="pageCount" property="pageCount" jdbcType="NUMERIC"/>
+        <result column="totalRecordCount" property="totalRecordCount" jdbcType="NUMERIC"/>
+        <result column="pageIndex" property="pageIndex" jdbcType="NUMERIC"/>
+        <result column="pageSize" property="pageSize" jdbcType="NUMERIC"/>
+        <result column="pageCount" property="pageCount" jdbcType="NUMERIC"/>
+        <result column="totalRecordCount" property="totalRecordCount" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="AdminResultMap" resultType="com.sxy.zongce.entity.Admin">
+        SELECT * FROM admin,notice WHERE notice.admin_Id = admin.admin_Id
+    </select>
+
+    <!-- 查询辅导员是否存在 -->
+    <select id="isExist" resultType="com.sxy.zongce.entity.Admin">
+        SELECT * FROM admin WHERE admin_Id = #{admin_Id}
+    </select>
+
+    <!-- 根据工号查询密码 -->
+    <select id="findPwdById" resultType="String">
+        SELECT admin_Pwd FROM admin WHERE admin_Id = #{admin_Id}
+    </select>
+
+    <!-- 根据工号修改密码 -->
+    <update id="updatePwd" parameterType="com.sxy.zongce.entity.Admin">
+        UPDATE admin
+        <set>
+            <if test="admin_Pwd != null">
+                admin_Pwd = #{admin_Pwd},
+            </if>
+        </set>
+        WHERE admin_Id = #{admin_Id}
+    </update>
+
+    <!-- 根据工号获取管理员姓名 -->
+    <select id="getAdminName" resultType="String">
+        SELECT admin_Name FROM admin WHERE admin_Id = #{admin_Id}
+    </select>
+
+    <!-- 根据管理员id分页查询认证申请 -->
+    <select id="listApp" resultType="com.sxy.zongce.vo.ApplicationVo">
+        SELECT apply_Id,application.stu_Id,stu_Name,tem_Name,awl_Detail,awl_Score,apply_detail,apply_time,state
+        FROM application,student,awardlever,project,template
+        WHERE application.stu_Id = student.stu_Id
+          AND application.awl_Id = awardlever.awl_Id
+          AND awardlever.pro_Id = project.pro_Id
+          AND project.tem_Id = template.tem_Id
+          AND awardlever.admin_Id = #{admin_Id}
+    </select>
+
+    <!-- 根据管理员id分页条件查询认证申请 -->
+    <select id="searchApp" resultType="com.sxy.zongce.vo.ApplicationVo">
+        SELECT apply_Id,application.stu_Id,stu_Name,tem_Name,awl_Detail,awl_Score,apply_detail,apply_time,state
+        FROM application,student,awardlever,project,template
+        WHERE application.stu_Id = student.stu_Id
+        AND application.awl_Id = awardlever.awl_Id
+        AND awardlever.pro_Id = project.pro_Id
+        AND project.tem_Id = template.tem_Id
+        AND awardlever.admin_Id = #{admin_Id}
+        <if test="startTime != null">
+            AND apply_time <![CDATA[>=]]>  #{startTime}
+        </if>
+        <if test="endTime != null ">
+            AND apply_time <![CDATA[<=]]>  #{endTime}
+        </if>
+        <if test="stu_Id != null">
+            AND application.stu_Id LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="stu_Name != null">
+            AND stu_Name LIKE CONCAT('%','${stu_Name}','%')
+        </if>
+    </select>
+
+    <!-- 管理员查看综测成绩 -->
+    <select id="checkScoreByAdmin" statementType="CALLABLE" resultMap="scoreByAdmin">
+        {CALL pro_total_score(null,null,#{admin_Id, mode=IN, jdbcType=VARCHAR},null,null,null,null,
+            #{pageIndex, mode=IN, jdbcType=VARCHAR},#{pageSize, mode=IN, jdbcType=VARCHAR},
+            #{pageCount, mode=OUT, jdbcType=NUMERIC},#{totalRecordCount, mode=OUT, jdbcType=NUMERIC})}
+    </select>
+
+    <!-- 管理条件查询综测成绩 -->
+    <select id="searchScoreByAdmin" statementType="CALLABLE" resultMap="scoreByAdmin">
+        {CALL pro_total_score(
+        <choose>
+            <when test="stu_Id != null and stu_Id != ''">
+                #{stu_Id, mode=IN, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                null
+            </otherwise>
+        </choose>
+            ,null,#{admin_Id, mode=IN, jdbcType=VARCHAR}
+        <choose>
+            <when test="semester != null">
+                ,#{semester, mode=IN, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                ,null
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="grade != 0 and grade != null">
+                ,#{grade, mode=IN, jdbcType=NUMERIC}
+            </when>
+            <otherwise>
+                ,null
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="major != null">
+                ,#{major, mode=IN, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                ,null
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="stu_Name != null and stu_Name != ''">
+                ,#{stu_Name, mode=IN, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                ,null
+            </otherwise>
+        </choose>
+        ,#{pageIndex, mode=IN, jdbcType=NUMERIC},#{pageSize, mode=IN, jdbcType=NUMERIC}
+        ,#{pageCount, mode=OUT, jdbcType=NUMERIC},#{totalRecordCount, mode=OUT, jdbcType=NUMERIC})}
+    </select>
+
+</mapper>

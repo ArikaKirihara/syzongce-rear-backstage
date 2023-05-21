@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.MenterMapper">
+    <resultMap id="MenterResultMap" type="com.sxy.zongce.entity.Menter">
+        <id column="menter_Id" property="menter_Id" jdbcType="VARCHAR"/>
+        <result column="m_Pwd" property="m_Pwd" jdbcType="VARCHAR"/>
+        <result column="m_Name" property="m_Name" jdbcType="VARCHAR"/>
+        <result column="m_Dept" property="m_Dept" jdbcType="VARCHAR"/>
+        <result column="grade" property="grade" jdbcType="NUMERIC"/>
+<!--        <result column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>-->
+        <!-- 一对一关联管理员表 -->
+        <association property="admin" javaType="Admin">
+            <id column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+            <result column="admin_Name" property="admin_Name" jdbcType="VARCHAR"/>
+            <result column="admin_Dept" property="admin_Dept" jdbcType="VARCHAR"/>
+        </association>
+        <!-- 一对多关联学生表 -->
+        <collection property="students" ofType="Student" javaType="List">
+            <id column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+            <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+            <result column="major" property="major" jdbcType="VARCHAR"/>
+            <result column="grade" property="grade" jdbcType="NUMERIC"/>
+            <result column="stu_class" property="stu_class" jdbcType="VARCHAR"/>
+        </collection>
+        <!-- 一对多关联申请单表 -->
+        <collection property="applications" ofType="Application" javaType="List">
+            <id column="apply_Id" property="apply_Id" jdbcType="VARCHAR"/>
+            <result column="att_url" property="att_url" jdbcType="VARCHAR"/>
+            <result column="apply_detail" property="apply_detail" jdbcType="VARCHAR"/>
+            <result column="apply_time" property="apply_time" jdbcType="DATE"/>
+            <result column="state" property="state" jdbcType="VARCHAR"/>
+            <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="scoreByMenter" type="com.sxy.zongce.vo.ScoreVo">
+        <result column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+        <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+        <result column="ungetcredit" property="ungetcredit" jdbcType="FLOAT"/>
+        <result column="total_GPA" property="total_GPA" jdbcType="FLOAT"/>
+        <result column="total_moral" property="total_moral" jdbcType="FLOAT"/>
+        <result column="total_competition" property="total_competition" jdbcType="FLOAT"/>
+        <result column="total_innovate" property="total_innovate" jdbcType="FLOAT"/>
+        <result column="total_publicwelfare" property="total_publicwelfare" jdbcType="FLOAT"/>
+        <result column="total_elsepoint" property="total_elsepoint" jdbcType="FLOAT"/>
+        <result column="total_violate" property="total_violate" jdbcType="FLOAT"/>
+        <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        <result column="total_score" property="total_score" jdbcType="FLOAT"/>
+        <result column="ranking" property="ranking" jdbcType="NUMERIC"/>
+        <result column="pageIndex" property="pageIndex" jdbcType="NUMERIC"/>
+        <result column="pageSize" property="pageSize" jdbcType="NUMERIC"/>
+        <result column="pageCount" property="pageCount" jdbcType="NUMERIC"/>
+        <result column="totalRecordCount" property="totalRecordCount" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="MenterResultMap" resultType="com.sxy.zongce.entity.Menter">
+        SELECT * FROM menter,student WHERE menter.menter_Id = student.menter_Id AND menter.menter_Id = '80210201'
+    </select>
+
+    <!-- 查询辅导员是否存在 -->
+    <select id="isExist" resultType="com.sxy.zongce.entity.Menter">
+        SELECT * FROM menter WHERE menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 根据工号查询密码 -->
+    <select id="findPwdById" resultType="String">
+        SELECT m_Pwd FROM menter WHERE menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 根据工号修改密码 -->
+    <update id="updatePwd" parameterType="com.sxy.zongce.entity.Menter">
+        UPDATE menter
+        <set>
+            <if test="m_Pwd != null">
+                m_Pwd = #{m_Pwd},
+            </if>
+        </set>
+        WHERE menter_Id = #{menter_Id}
+    </update>
+
+    <!-- 根据工号获取辅导员姓名 -->
+    <select id="getMenterName" resultType="String">
+        SELECT m_Name FROM menter WHERE menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 根据辅导员id分页查询认证申请 -->
+    <select id="listApp" resultType="com.sxy.zongce.vo.ApplicationVo">
+        SELECT apply_Id,application.stu_Id,stu_Name,tem_Name,awl_Detail,awl_Score,att_url,apply_detail,apply_time,state
+        FROM application,student,awardlever,project,template
+        WHERE application.stu_Id = student.stu_Id
+          AND application.awl_Id = awardlever.awl_Id
+          AND awardlever.pro_Id = project.pro_Id
+          AND project.tem_Id = template.tem_Id
+          AND menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 根据辅导员id分页条件查询认证申请 -->
+    <select id="searchApp" resultType="com.sxy.zongce.vo.ApplicationVo">
+        SELECT apply_Id,application.stu_Id,stu_Name,tem_Name,awl_Detail,awl_Score,att_url,apply_detail,apply_time,state
+        FROM application,student,awardlever,project,template
+        WHERE application.stu_Id = student.stu_Id
+          AND application.awl_Id = awardlever.awl_Id
+          AND awardlever.pro_Id = project.pro_Id
+          AND project.tem_Id = template.tem_Id
+          AND menter_Id = #{menter_Id}
+        <if test="startTime != null">
+            AND apply_time <![CDATA[>=]]>  #{startTime}
+        </if>
+        <if test="endTime != null ">
+            AND apply_time <![CDATA[<=]]>  #{endTime}
+        </if>
+        <if test="stu_Id != null">
+            AND application.stu_Id LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="stu_Name != null">
+            AND stu_Name LIKE CONCAT('%','${stu_Name}','%')
+        </if>
+    </select>
+
+    <!-- 辅导员查看综测成绩 -->
+    <select id="checkScoreByMenter" statementType="CALLABLE" resultMap="scoreByMenter">
+        {CALL pro_total_score(null,#{menter_Id, mode=IN, jdbcType=VARCHAR},null,null,null,null,null,
+            #{pageIndex, mode=IN, jdbcType=VARCHAR},#{pageSize, mode=IN, jdbcType=VARCHAR},
+            #{pageCount, mode=OUT, jdbcType=NUMERIC},#{totalRecordCount, mode=OUT, jdbcType=NUMERIC})}
+    </select>
+
+    <!-- 辅导员条件查询综测成绩 -->
+    <select id="searchScoreByMenter" statementType="CALLABLE" resultMap="scoreByMenter">
+        {CALL pro_total_score(
+        <choose>
+            <when test="stu_Id != null and stu_Id != ''">
+                #{stu_Id, mode=IN, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                null
+            </otherwise>
+        </choose>
+            ,#{menter_Id, mode=IN, jdbcType=VARCHAR},null
+        <choose>
+            <when test="semester != null">
+                ,#{semester, mode=IN, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                ,null
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="grade != 0 and grade != null">
+                ,#{grade, mode=IN, jdbcType=NUMERIC}
+            </when>
+            <otherwise>
+                ,null
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="major != null">
+                ,#{major, mode=IN, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                ,null
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="stu_Name != null and stu_Name != ''">
+                ,#{stu_Name, mode=IN, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                ,null
+            </otherwise>
+        </choose>
+        ,#{pageIndex, mode=IN, jdbcType=NUMERIC},#{pageSize, mode=IN, jdbcType=NUMERIC}
+        ,#{pageCount, mode=OUT, jdbcType=NUMERIC},#{totalRecordCount, mode=OUT, jdbcType=NUMERIC})}
+    </select>
+</mapper>

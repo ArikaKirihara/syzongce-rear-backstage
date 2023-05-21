@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.sxy.zongce.service.impl.MenterServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.532 s <<< FAILURE! - in com.sxy.zongce.service.impl.MenterServiceImplTest
+updatePwd  Time elapsed: 0.342 s  <<< ERROR!
+java.lang.RuntimeException: 服务器异常
+	at com.sxy.zongce.service.impl.MenterServiceImplTest.updatePwd(MenterServiceImplTest.java:31)
+
+findPwdById  Time elapsed: 0.087 s  <<< ERROR!
+java.lang.RuntimeException: 服务器异常
+	at com.sxy.zongce.service.impl.MenterServiceImplTest.findPwdById(MenterServiceImplTest.java:25)
+
+isExist  Time elapsed: 0.067 s  <<< ERROR!
+java.lang.RuntimeException: 服务器异常
+	at com.sxy.zongce.service.impl.MenterServiceImplTest.isExist(MenterServiceImplTest.java:20)
+

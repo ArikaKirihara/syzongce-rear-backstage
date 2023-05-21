@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>录入其他加分</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/teach_base.css">
+    <link rel="stylesheet" href="../../css/teach_other_input.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="teach_vio_input.html">录入其他加分</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <div class="item">
+                    <h2>录入其他加分</h2>
+                    <hr>
+                    <form class="form_control"> 
+                        <div class="form_item">
+                            <label class="label_control">学号</label>
+                            <input type="text" required="required" class="input_control" id="stu_id">
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">学生姓名</label>
+                            <input type="text"  disabled="true" id="stu_Name">
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">加分学期</label>
+                            
+                            <div class="selcontent">
+                                <select id="semester" class="input_control">
+                                    <option value="">--请选择学期--</option>
+                                    <option value="2022-2023-1">2022-2023-1</option>
+                                    <option value="2021-2022-2">2021-2022-2</option>
+                                    <option value="2021-2022-1">2021-2022-1</option>
+                                    <option value="2020-2021-2">2020-2021-2</option>
+                                    <option value="2020-2021-1">2020-2021-1</option>
+                                    <option value="2019-2020-2">2019-2020-2</option>
+                                    <option value="2019-2020-2">2019-2020-1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">加分分值</label>
+                            <input type="textarea" required="required" class="input_control" id="E_score">
+                        </div>
+                        <div class="form_item in_reason">
+                            <label class="label_control">加分原因</label>
+                            <textarea class="input_control" cols="30" rows="10" id="detail"></textarea>
+                        </div>
+                        <div class="form_btn">
+                            <input type="button" value="提交" id="submit" class="f_btn" data-name="r-1">
+                            <input type="reset" value="重置" id="cancel">
+                        </div>    
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+    <script src="../../js/stu_id_check.js"></script>
+    <script>
+        $("#submit").click(function () {
+            $.ajax({
+                url: "/else/entry",
+                type: "POST",
+                data: "stu_Id=" + $("#stu_id").val() + "&semester=" + $("#semester").val()+"&E_score="
+                    + $("#E_score").val()+ "&detail=" + $("#detail").val() ,
+                dataType : "JSON",
+                success : function (json) {
+                    if (json.code == 200){
+                        alert('录入成功');
+                        window.location.reload();
+                    }
+                    else{
+                        alert('录入失败,数据已存在或格式出错');
+                    }
+                },
+                error : function (xhr) {
+                    alert("录入时产生未知异常," + xhr.detailMessage)
+                }
+            });
+
+        })
+    </script>
+    <script>
+        $("#stu_id").bind("input propertychange",function (){
+            if($("#stu_id").val().length==12){
+                $.ajax({
+                    url:"/student/input/name",
+                    type:"GET",
+                    data: "stu_Id=" + $("#stu_id").val(),
+                    dataType:"JSON",
+                    success:function(json){
+                        if (json.code == 200){
+                            $("#stu_Name").val(json.data)
+                        }
+                        else{
+                            alert('用户信息不存在');
+                        }
+                    },
+                    error:function(xhr){
+                        alert("查询用户信息产生未知异常："+xhr.msg);
+                    }
+                });
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+    

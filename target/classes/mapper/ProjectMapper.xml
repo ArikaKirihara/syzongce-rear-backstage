@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.ProjectMapper">
+    <resultMap id="ProjectResultMap" type="com.sxy.zongce.entity.Project">
+        <id column="pro_Id" property="pro_Id" jdbcType="VARCHAR"/>
+        <result column="pro_Name" property="pro_Name" jdbcType="VARCHAR"/>
+        <result column="pro_Display" property="pro_Display" jdbcType="CHAR"/>
+        <result column="tem_Id" property="tem_Id" jdbcType="VARCHAR"/>
+        <result column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联模板分类表 -->
+        <association property="template" javaType="Template">
+            <result column="tem_Name" property="tem_Name" jdbcType="VARCHAR"/>
+        </association>
+        <!-- 一对一关联管理员表 -->
+        <association property="admin" javaType="Admin">
+            <id column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+            <result column="admin_Name" property="admin_Name" jdbcType="VARCHAR"/>
+        </association>
+        <!-- 一对多关联成果级别表 -->
+        <collection property="awardLevers" ofType="com.sxy.zongce.entity.AwardLever" javaType="List">
+            <id column="awl_Id" property="awl_Id" jdbcType="VARCHAR"/>
+            <result column="awl_Detail" property="awl_Detail" jdbcType="VARCHAR"/>
+            <result column="awl_Score" property="awl_Score" jdbcType="FLOAT"/>
+            <result column="awl_Display" property="awl_Display" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="ProjectResultMap" resultType="com.sxy.zongce.entity.Project">
+        SELECT * FROM project
+    </select>
+
+    <select id="findMaxId" resultType="String">
+        SELECT MAX(pro_Id) FROM project
+    </select>
+
+    <!-- 根据管理员id查询所有项目类型 -->
+    <select id="findAllProject" resultType="com.sxy.zongce.vo.ProjectVo">
+        SELECT pro_Id,tem_Name,pro_Name,pro_Display,template.tem_Id FROM project,template
+        WHERE project.tem_Id = template.tem_Id
+          AND project.admin_Id = #{admin_Id}
+    </select>
+
+    <!-- 根据id更改项目类型状态 -->
+    <update id="updateProjectById" parameterType="com.sxy.zongce.entity.Project">
+        UPDATE project
+        SET pro_Display = IF(pro_Display = '是', '否', '是')
+        WHERE pro_Id = #{pro_Id}
+    </update>
+
+    <!-- 添加项目类型 -->
+    <insert id="addProject" parameterType="com.sxy.zongce.entity.Project">
+        INSERT INTO project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test=" pro_Id != null">pro_Id,</if>
+            <if test=" pro_Name != null">pro_Name,</if>
+            <if test=" tem_Id != null">tem_Id,</if>
+            <if test=" admin_Id != null">admin_Id,</if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test=" pro_Id != null">#{ pro_Id, jdbcType= VARCHAR },</if>
+            <if test=" pro_Name != null">#{ pro_Name, jdbcType= VARCHAR },</if>
+            <if test=" tem_Id != null">#{ tem_Id, jdbcType= VARCHAR },</if>
+            <if test=" admin_Id != null">#{ admin_Id, jdbcType= VARCHAR },</if>
+        </trim>
+    </insert>
+
+    <!-- 根据学生id和模板分类id查询所有项目类型名称和id -->
+    <select id="findProject" resultType="com.sxy.zongce.entity.Project">
+        SELECT pro_Id,pro_Name,project.tem_Id FROM project,template,menter,student
+        WHERE pro_Display = '是'
+          AND project.tem_Id = template.tem_Id
+          AND project.admin_Id = menter.admin_Id
+          AND menter.menter_Id = student.menter_Id
+          AND template.tem_Id = #{tem_Id}
+          AND stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 根据管理员id和模板分类id筛选项目类型 -->
+    <select id="findProByTmp" resultType="com.sxy.zongce.vo.ProjectVo">
+        SELECT project.tem_Id,tem_Name,pro_Id,pro_Name,pro_Display FROM project,template
+        WHERE project.tem_Id = template.tem_Id
+          AND project.admin_Id = #{admin_Id}
+          AND template.tem_Id = #{tem_Id}
+    </select>
+
+    <!-- 根据id查询项目类型可见性 -->
+    <select id="isVisible" resultType="String">
+        SELECT pro_Display FROM project WHERE pro_Id = #{pro_Id}
+    </select>
+</mapper>

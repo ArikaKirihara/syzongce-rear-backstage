@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.TemplateMapper">
+    <resultMap id="TemplateResultMap" type="com.sxy.zongce.entity.Template">
+        <id column="tem_Id" property="tem_Id" jdbcType="VARCHAR"/>
+        <result column="tem_Name" property="tem_Name" jdbcType="VARCHAR"/>
+        <result column="tem_Display" property="tem_Display" jdbcType="CHAR"/>
+        <result column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联管理员表 -->
+        <association property="admin" javaType="Admin">
+            <result column="admin_Name" property="admin_Name" jdbcType="VARCHAR"/>
+        </association>
+        <!-- 一对多关联项目类型表 -->
+        <collection property="projects" ofType="Project" javaType="List">
+            <id column="pro_Id" property="pro_Id" jdbcType="VARCHAR"/>
+            <result column="pro_Name" property="pro_Name" jdbcType="VARCHAR"/>
+            <result column="pro_Display" property="pro_Display" jdbcType="CHAR"/>
+            <!-- 一对多关联成果级别表 -->
+            <collection property="awardLevers" ofType="AwardLever" javaType="List">
+                <id column="awl_Id" property="awl_Id" jdbcType="VARCHAR"/>
+                <result column="awl_Detail" property="awl_Detail" jdbcType="VARCHAR"/>
+                <result column="awl_Score" property="awl_Score" jdbcType="FLOAT"/>
+                <result column="awl_Display" property="awl_Display" jdbcType="VARCHAR"/>
+            </collection>
+        </collection>
+
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="TemplateResultMap" resultType="com.sxy.zongce.entity.Template">
+        SELECT * FROM template,project,awardlever
+        WHERE template.tem_Id = project.tem_Id
+        AND project.pro_Id = awardlever.pro_Id
+    </select>
+    
+    <!-- 查询模板分类最大的id，用于生成自增id -->
+    <select id="findMaxId" resultType="String">
+        SELECT MAX(tem_Id) FROM template
+    </select>
+
+    <!-- 根据管理员id查询所有模板分类 -->
+    <select id="findAllTemplate" resultType="com.sxy.zongce.entity.Template">
+        SELECT tem_Id,tem_Name,tem_Display FROM template WHERE admin_Id = #{admin_Id}
+    </select>
+
+    <!-- 根据id更改模板分类状态 -->
+    <update id="updateTemplateById" parameterType="com.sxy.zongce.entity.Template">
+        UPDATE template
+        SET tem_Display = IF(tem_Display = '是', '否', '是')
+        WHERE tem_Id = #{tem_Id}
+    </update>
+
+    <!-- 添加模板分类 -->
+    <insert id="addTemplate" parameterType="com.sxy.zongce.entity.Template">
+        INSERT INTO template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test=" tem_Id != null">tem_Id,</if>
+            <if test=" tem_Name != null">tem_Name,</if>
+            <if test=" admin_Id != null">admin_Id,</if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test=" tem_Id != null">#{ tem_Id, jdbcType= VARCHAR },</if>
+            <if test=" tem_Name != null">#{ tem_Name, jdbcType= VARCHAR },</if>
+            <if test=" admin_Id != null">#{ admin_Id, jdbcType= VARCHAR },</if>
+        </trim>
+    </insert>
+
+    <!-- 根据学生id查询所有所有模板分类名称和id -->
+    <select id="findTemplate" resultType="com.sxy.zongce.entity.Template">
+        SELECT tem_Id,tem_Name FROM template,menter,student
+        WHERE tem_Display = '是'
+         AND template.admin_Id = menter.admin_Id
+         AND menter.menter_Id = student.menter_Id
+         AND stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 根据id查询项目类型可见性 -->
+    <select id="isVisible" resultType="String">
+        SELECT tem_Display FROM template WHERE tem_Id = #{tem_Id}
+    </select>
+
+</mapper>

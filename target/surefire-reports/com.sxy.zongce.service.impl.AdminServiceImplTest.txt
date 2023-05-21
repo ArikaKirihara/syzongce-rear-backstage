@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.sxy.zongce.service.impl.AdminServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.315 s <<< FAILURE! - in com.sxy.zongce.service.impl.AdminServiceImplTest
+updatePwd  Time elapsed: 0.172 s  <<< ERROR!
+java.lang.RuntimeException: 服务器异常
+	at com.sxy.zongce.service.impl.AdminServiceImplTest.updatePwd(AdminServiceImplTest.java:31)
+

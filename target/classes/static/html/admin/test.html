@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成果级别管理</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/admin_base copy.css">
+    <link rel="stylesheet" href="../../css/admin_grade.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    
+        <!-- sidebar END -->
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="#">成果级别管理</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <div class="item sheet">
+                    <button class="r_btn insert" data-name="r">添加</button>
+                    <table class="table_1">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>项目类别</th>
+                                <th>成果级别</th>
+                                <th>分值</th>
+                                <th>操作</th>
+                                <th>显示/隐藏</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>优秀团干</td>
+                                <td>国家级荣誉</td>
+                                <td>6</td>
+                                <td class="t_btn"><input type="button" value="修改" class="r_btn btn3"
+                                        data-name="r-1"></td>
+                                <td>
+                                    <div class="switch">
+                                        <input type="checkbox" id="switch1" />
+                                        <label for="switch1">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>优秀团干</td>
+                                <td>国家级荣誉</td>
+                                <td>6</td>
+                                <td class="t_btn"><input type="button" value="修改" class="r_btn btn3"
+                                        data-name="r-1"></td>
+                                <td>
+                                    <div class="switch">
+                                        <input type="checkbox" id="switch2" />
+                                        <label for="switch2">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>优秀团干</td>
+                                <td>国家级荣誉</td>
+                                <td>6</td>
+                                <td class="t_btn"><input type="button" value="修改" class="r_btn btn3"
+                                        data-name="r-1"></td>
+                                <td>
+                                    <div class="switch">
+                                        <input type="checkbox" id="switch3" />
+                                        <label for="switch3">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>共<span>89</span>项数据</p>
+                    <div class="page">
+                        <a href="#" class="first">首页</a>
+                        <a href="#" class="prev">&lt;上一页</a>
+                        <a href="#" class="on">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <span>...</span>
+                        <a href="#" class="next">下一页&gt;</a>
+                        <a href="#" class="last">尾页</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 弹窗 -->
+            <div class="result-preview">
+                <div class="preview1" data-target="r">
+                    <p>添加成果级别</p>
+                    <select id="model" required="required">
+                            <option>--请选择项目类别--</option>
+                            <option>国家奖学金</option>
+                            <option>优秀团干</option>
+                            <option>优秀学生干部</option>
+                    </select>
+                    <input type="text" class="add" placeholder="成果级别名称" required="required">
+                    <input type="text" class="add" placeholder="分值" required="required">
+                    <div class="buttons">
+                        <input type="button" value="确认" class="r_operate confirm">
+                        <input type="button" value="取消" class="r_operate cancel">
+                    </div>
+                </div>
+                <div class="preview" data-target="r-1">
+                    <p>修改成果级别名称</p>
+                    <select id="model">
+                        <option>--请选择项目类别--</option>
+                        <option>国家奖学金</option>
+                        <option>优秀团干</option>
+                        <option>优秀学生干部</option>
+                    </select>
+                    <input type="text" class="add" placeholder="成果级别名称" required="required">
+                    <input type="text" class="add" placeholder="分值" required="required">
+                    <div class="buttons">
+                        <input type="button" value="确认" class="r_operate confirm">
+                        <input type="button" value="取消" class="r_operate cancel">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../js/base.js"></script>
+    <script src="../js/admin_grade.js"></script>
+</body>
+
+</html>

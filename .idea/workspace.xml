@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e29849e8-7f10-4dc8-90c1-32594d24ed93" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Interface" />
+        <option value="spring-beans.schema" />
+        <option value="Enum" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="C:\MAVEN_REPOSITORY\maven_repository2" />
+        <option name="mavenHome" value="$USER_HOME$/Downloads/software/apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="C:\Users\ArikaKirihara\Downloads\software\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2EIuLElnWeK9Dpkq1lKiYB4IZ8u" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../student-manage-system-front-master" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.57586205" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\target\classes\templates" />
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static" />
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static\html" />
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static\layouts" />
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static\js" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static\css" />
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static\html\admin" />
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static\js" />
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static\html" />
+      <recent name="C:\Users\ArikaKirihara\IdeaProjects\syzongce-rear-backstage\src\main\resources\static" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.sxy.zongce.service.impl" />
+      <recent name="com.sxy.zongce.mapper" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ZongceApplication">
+    <configuration name="ApplicationServiceImplTest.checkAtt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="syzongce-rear-backstage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sxy.zongce.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sxy.zongce.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.sxy.zongce.service.impl.ApplicationServiceImplTest" />
+      <option name="METHOD_NAME" value="checkAtt" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MenterServiceImplTest.checkScoreByMenter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="syzongce-rear-backstage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sxy.zongce.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sxy.zongce.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.sxy.zongce.service.impl.MenterServiceImplTest" />
+      <option name="METHOD_NAME" value="checkScoreByMenter" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MenterServiceImplTest.searchScoreByMenter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="syzongce-rear-backstage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sxy.zongce.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sxy.zongce.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.sxy.zongce.service.impl.MenterServiceImplTest" />
+      <option name="METHOD_NAME" value="searchScoreByMenter" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StudentServiceImplTest.checkScoreByStudent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="syzongce-rear-backstage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sxy.zongce.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sxy.zongce.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.sxy.zongce.service.impl.StudentServiceImplTest" />
+      <option name="METHOD_NAME" value="checkScoreByStudent" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StudentServiceImplTest.searchStuByAdmin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="syzongce-rear-backstage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sxy.zongce.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sxy.zongce.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.sxy.zongce.service.impl.StudentServiceImplTest" />
+      <option name="METHOD_NAME" value="searchStuByAdmin" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ZongceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="syzongce-rear-backstage" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.sxy.zongce.ZongceApplication" />
+      <option name="WORKING_DIRECTORY" value="file://$ModuleFileDir$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.MenterServiceImplTest.searchScoreByMenter" />
+      <item itemvalue="JUnit.StudentServiceImplTest.checkScoreByStudent" />
+      <item itemvalue="JUnit.MenterServiceImplTest.checkScoreByMenter" />
+      <item itemvalue="JUnit.StudentServiceImplTest.searchStuByAdmin" />
+      <item itemvalue="JUnit.ApplicationServiceImplTest.checkAtt" />
+      <item itemvalue="Spring Boot.ZongceApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ApplicationServiceImplTest.checkAtt" />
+        <item itemvalue="JUnit.MenterServiceImplTest.searchScoreByMenter" />
+        <item itemvalue="JUnit.StudentServiceImplTest.checkScoreByStudent" />
+        <item itemvalue="JUnit.MenterServiceImplTest.checkScoreByMenter" />
+        <item itemvalue="JUnit.StudentServiceImplTest.searchStuByAdmin" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e29849e8-7f10-4dc8-90c1-32594d24ed93" name="Default Changelist" comment="" />
+      <created>1662295364431</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1662295364431</updated>
+      <workItem from="1662295366013" duration="1541000" />
+      <workItem from="1662297096856" duration="4438000" />
+      <workItem from="1662342570800" duration="10329000" />
+      <workItem from="1662376530606" duration="2899000" />
+      <workItem from="1662395962843" duration="72000" />
+      <workItem from="1662396047122" duration="1087000" />
+      <workItem from="1662397154409" duration="161000" />
+      <workItem from="1662397339141" duration="2361000" />
+      <workItem from="1662431123011" duration="1144000" />
+      <workItem from="1662432389066" duration="64000" />
+      <workItem from="1662432466949" duration="1044000" />
+      <workItem from="1441515450271" duration="1481000" />
+      <workItem from="1662557471319" duration="1195000" />
+      <workItem from="1662917162264" duration="1082000" />
+      <workItem from="1663083270792" duration="2511000" />
+      <workItem from="1663213040276" duration="1528000" />
+      <workItem from="1663223028977" duration="1922000" />
+      <workItem from="1663242714694" duration="17000" />
+      <workItem from="1663242959986" duration="10000" />
+      <workItem from="1663494359191" duration="1216000" />
+      <workItem from="1663754108748" duration="2489000" />
+      <workItem from="1663828550930" duration="692000" />
+      <workItem from="1663865506024" duration="925000" />
+      <workItem from="1663902214375" duration="32588000" />
+      <workItem from="1663949840411" duration="7006000" />
+      <workItem from="1663957064347" duration="1199000" />
+      <workItem from="1663985641277" duration="25277000" />
+      <workItem from="1664125179034" duration="4306000" />
+      <workItem from="1664130790952" duration="24000" />
+      <workItem from="1664130832802" duration="37000" />
+      <workItem from="1664130928456" duration="489000" />
+      <workItem from="1664170116596" duration="6330000" />
+      <workItem from="1664191771656" duration="39348000" />
+      <workItem from="1664339495475" duration="1480000" />
+      <workItem from="1664355181795" duration="5152000" />
+      <workItem from="1664420806873" duration="613000" />
+      <workItem from="1664449204903" duration="662000" />
+      <workItem from="1664460074233" duration="3493000" />
+      <workItem from="1664480093444" duration="1382000" />
+      <workItem from="1664529682111" duration="11597000" />
+      <workItem from="1664602483318" duration="13906000" />
+      <workItem from="1664693843548" duration="8527000" />
+      <workItem from="1664766482859" duration="5320000" />
+      <workItem from="1664772494225" duration="21637000" />
+      <workItem from="1664816963379" duration="8357000" />
+      <workItem from="1664857108191" duration="14233000" />
+      <workItem from="1664884255014" duration="22513000" />
+      <workItem from="1664911688845" duration="8294000" />
+      <workItem from="1664942851312" duration="21106000" />
+      <workItem from="1665000132052" duration="3886000" />
+      <workItem from="1665032407886" duration="14308000" />
+      <workItem from="1665064120488" duration="8946000" />
+      <workItem from="1665084955920" duration="2278000" />
+      <workItem from="1665123833186" duration="669000" />
+      <workItem from="1665153009939" duration="16751000" />
+      <workItem from="1665204670133" duration="6138000" />
+      <workItem from="1665224088887" duration="4609000" />
+      <workItem from="1665251126625" duration="608000" />
+      <workItem from="1665295926156" duration="24958000" />
+      <workItem from="1665344440652" duration="1328000" />
+      <workItem from="1665345871352" duration="912000" />
+      <workItem from="1665383445694" duration="23129000" />
+      <workItem from="1665458553357" duration="42946000" />
+      <workItem from="1665532998787" duration="46486000" />
+      <workItem from="1665640923044" duration="5130000" />
+      <workItem from="1665647020933" duration="65176000" />
+      <workItem from="1665751689637" duration="28907000" />
+      <workItem from="1665811929653" duration="42988000" />
+      <workItem from="1665897534822" duration="6540000" />
+      <workItem from="1665919459529" duration="17572000" />
+      <workItem from="1665985702252" duration="16975000" />
+      <workItem from="1666064151512" duration="324000" />
+      <workItem from="1666071376935" duration="5128000" />
+      <workItem from="1666082960805" duration="17724000" />
+      <workItem from="1666138259340" duration="993000" />
+      <workItem from="1666139772355" duration="14026000" />
+      <workItem from="1666194592559" duration="6115000" />
+      <workItem from="1666202161733" duration="580000" />
+      <workItem from="1666238993702" duration="16383000" />
+      <workItem from="1666268055931" duration="5989000" />
+      <workItem from="1666281274931" duration="5379000" />
+      <workItem from="1666334565797" duration="11718000" />
+      <workItem from="1666359587661" duration="390000" />
+      <workItem from="1666360055288" duration="14821000" />
+      <workItem from="1666406910307" duration="19167000" />
+      <workItem from="1666462310378" duration="2835000" />
+      <workItem from="1666498983986" duration="7001000" />
+      <workItem from="1666523352389" duration="2195000" />
+      <workItem from="1666527827742" duration="780000" />
+      <workItem from="1666593155304" duration="2979000" />
+      <workItem from="1666596368008" duration="611000" />
+      <workItem from="1666597137921" duration="6195000" />
+      <workItem from="1666623551609" duration="2169000" />
+      <workItem from="1666742683603" duration="10259000" />
+      <workItem from="1667232375650" duration="1257000" />
+      <workItem from="1668340615819" duration="702000" />
+      <workItem from="1678645477181" duration="1295000" />
+      <workItem from="1680138772558" duration="617000" />
+      <workItem from="1680461058486" duration="2630000" />
+      <workItem from="1680764142919" duration="572000" />
+      <workItem from="1680766814870" duration="191000" />
+      <workItem from="1680768046647" duration="3729000" />
+      <workItem from="1680812024741" duration="930000" />
+      <workItem from="1680903431399" duration="2110000" />
+      <workItem from="1681164279590" duration="153000" />
+      <workItem from="1681196204067" duration="1106000" />
+      <workItem from="1681723676993" duration="771000" />
+      <workItem from="1682707817788" duration="1541000" />
+      <workItem from="1684603215577" duration="2403000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="com.sxy.zongce.exception.UserException" package="com.sxy.zongce.exception" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

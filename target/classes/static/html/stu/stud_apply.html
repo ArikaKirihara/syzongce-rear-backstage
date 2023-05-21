@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交认证申请</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/stu_base.css">
+    <link rel="stylesheet" href="../../css/stud_apply.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="stud_apply.html">提交认证申请</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <div class="item">
+                    <form action="/app/submit" method="post" class="form_control" id="app_form" enctype="multipart/form-data">
+                        <h2>认证申请单</h2>
+                        <hr />
+                        <div class="form_item">
+                            <label class="label_control">申请人姓名</label>
+                            <input id="stu_Name" type="text" disabled="true">
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">模块分类</label>
+                            <select required id="template" onchange="templateChange()">
+                                <option value="">--请选择模板分类--</option>
+                            </select>
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">项目类别</label>
+                            <select required id="project" onchange="projectChange()">
+                                <option value="">--请选择项目类别--</option>
+                                <option value="T1">T1</option>
+                                <option value="T2">T2</option>
+                                <option value="T3">T3</option>
+                            </select>
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">成果级别</label>
+                            <select required id="awardlever" onchange="awardleverChange()" name="awl_Id">
+                                <option value="">--请选择成果级别--</option>
+                                <option>CET4</option>
+                                <option>CET6</option>
+                                <option>计算机二等证书</option>
+                            </select>
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">申请分值</label>
+                            <input id="score" type="text" disabled="true" value=""/>
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">资料上传</label>
+                            <input type="file" required="required" id="file" name="file"/>
+                        </div>
+                        <div class="form_item">
+                            <label class="label_control">内容说明</label>
+                            <div>
+                                <textarea  rows="8" cols="80" placeholder="请输入说明内容" required="required" id="explain" name="apply_detail"></textarea>
+                            </div>
+                        </div>
+                        <div class="button_control">
+                            <div class="submit" id="submit">
+                                <input type="button" value="提交" id="submit_app" />
+                            </div>
+                            <div class="reset" id="reset">
+                                <input type="button" value="重置" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+    <script>
+        $(document).ready(function (){
+            initialize();
+        });
+
+        $("#reset").click(function () {
+            initialize();
+            $("#explain").val("");
+            $("#file").val("");
+
+        })
+
+
+        function initialize() {
+            $.ajax({
+                url:"/student/name",
+                type:"GET",
+                dataType:"JSON",
+                success:function(json){
+                    if (json.code == 200){
+                        $("#stu_Name").val(json.data)
+                    }
+                    else{
+                        alert('用户信息不存在');
+                    }
+                },
+                error:function(xhr){
+                    alert("查询用户信息产生未知异常："+xhr.msg);
+                }
+            });
+
+            //清空template中的数据
+            $("#template").empty();
+            $("#template").append('<option value="">--请选择模板分类--</option>');
+            //清空project中的数据
+            $("#project").empty();
+            $("#project").append('<option value="">--请选择项目类别--</option>');
+            //清空awardlever中的数据
+            $("#awardlever").empty();
+            $("#awardlever").append('<option value="">--请选择成果级别--</option>');
+            //清空score中的数据
+            $("#score").val("");
+            $.ajax({
+                url:"/template/now",
+                type:"GET",
+                dataType:"JSON",
+                success:function(json){
+                    let list = json.data;
+                    for(let i = 0 ; i < list.length ; i++){
+                        let option = '<option value="#{tem_Id}" id="template#{tem_Id}">#{tem_Name}</option>';
+                        option = option.replace(/#{tem_Id}/g , list[i].tem_Id);
+                        option = option.replace(/#{tem_Name}/g , list[i].tem_Name);
+                        $("#template").append(option);
+                    }
+                },
+                error : function (xhr) {
+                    alert("数据加载产生未知异常," + xhr,msg)
+                }
+            });
+
+        }
+    </script>
+    <script>
+        //选择模板分类
+        function templateChange(){
+            //清空score中的数据
+            $("#score").val("");
+
+            //清空project中的数据
+            $("#project").empty();
+            $("#project").append('<option value="">--请选择项目类别--</option>');
+
+            //清空awardlever中的数据
+            $("#awardlever").empty();
+            $("#awardlever").append('<option value="">--请选择成果级别--</option>');
+
+            tem_Id = $("#template").val();
+            $.ajax({
+                url: "/project/" + tem_Id + "/now",
+                type: "GET",
+                dataType : "JSON",
+                success : function (json) {
+                    let list = json.data;
+                    for(let i = 0 ; i < list.length ; i++){
+                        let option = '<option value="#{pro_Id}" id="project#{pro_Id}">#{pro_Name}</option>';
+                        option = option.replace(/#{pro_Id}/g , list[i].pro_Id);
+                        option = option.replace(/#{pro_Name}/g , list[i].pro_Name);
+
+                        $("#project").append(option);
+                    }
+                },
+                error : function (xhr) {
+                    alert("数据加载产生未知异常," + xhr.detailMessage)
+                }
+            });
+        }
+    </script>
+
+    <script>
+        //选择项目类别
+        function projectChange(){
+            //清空score中的数据
+            $("#score").val("");
+
+            //清空awardlever中的数据
+            $("#awardlever").empty();
+            $("#awardlever").append('<option value="">--请选择成果级别--</option>');
+            pro_Id = $("#project").val();
+            $.ajax({
+                url: "/award-lever/" + pro_Id + "/now",
+                type: "GET",
+                dataType : "JSON",
+                success : function (json) {
+                    let list = json.data;
+                    for(let i = 0 ; i < list.length ; i++){
+                        let option = '<option value="#{awl_Id}" id="awardlever#{awl_Id}">#{awl_Detail}</option>';
+                        option = option.replace(/#{awl_Id}/g , list[i].awl_Id);
+                        option = option.replace(/#{awl_Detail}/g , list[i].awl_Detail);
+
+                        $("#awardlever").append(option);
+                    }
+                },
+                error : function (xhr) {
+                    alert("数据加载产生未知异常," + xhr.detailMessage)
+                }
+            });
+        }
+    </script>
+
+    <script>
+        //选择成果级别
+        function awardleverChange(){
+            //清空score中的数据
+            $("#score").val("");
+
+            $.ajax({
+                url: "/award-lever/score/now",
+                type: "GET",
+                data: "awl_Id=" + $("#awardlever").val(),
+                dataType : "JSON",
+                success : function (json) {
+                    let list = json.data;
+                    $("#score").val(list);
+
+                },
+                error : function (xhr) {
+                    alert("数据加载产生未知异常," + xhr.detailMessage)
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $("#submit_app").click(function () {
+            if ($("#explain").val() == ""){
+                alert("请输入内容说明（项目名称或比赛名称等）")
+            }else{
+                $.ajax({
+                    url: "/app/submit",
+                    type: "POST",
+                    data: new FormData($("#app_form")[0]),
+                    processData: false,
+                    contentType: false,
+                    dataType : "JSON",
+                    success : function (json) {
+                        if (json.code == 200){
+                            alert("提交成功")
+                            window.location.reload();
+                        }else{
+                            alert("提交失败")
+                        }
+
+                    },
+                    error : function (xhr) {
+                        alert("上传表单产生未知异常," + xhr.detailMessage)
+                    }
+                });
+            }
+
+        })
+    </script>
+</body>
+
+</html>

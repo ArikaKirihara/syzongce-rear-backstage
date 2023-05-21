@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.ApplicationMapper">
+    <resultMap id="ApplicationResultMap" type="com.sxy.zongce.entity.Application">
+        <id column="apply_Id" property="apply_Id" jdbcType="VARCHAR"/>
+        <result column="att_url" property="att_url" jdbcType="VARCHAR"/>
+        <result column="apply_detail" property="apply_detail" jdbcType="VARCHAR"/>
+        <result column="apply_time" property="apply_time" jdbcType="DATE"/>
+        <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+        <result column="awl_Id" property="awl_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联学生表 -->
+        <association property="student" javaType="Student">
+            <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+            <result column="menter_Id" property="menter_Id" jdbcType="VARCHAR"/>
+            <!-- 一对一关联辅导员表 -->
+            <association property="menter" javaType="Menter">
+                <result column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+            </association>
+        </association>
+        <!-- 一对一关联成果级别表 -->
+        <association property="awardLever" javaType="AwardLever">
+            <result column="awl_Detail" property="awl_Detail" jdbcType="VARCHAR"/>
+            <result column="awl_Score" property="awl_Score" jdbcType="FLOAT"/>
+            <!-- 一对一关联项目类型表 -->
+            <association property="project" javaType="Project">
+                <result column="pro_Name" property="pro_Name" jdbcType="VARCHAR"/>
+                <!-- 一对一关联模板分类表 -->
+                <association property="template" javaType="Template">
+                    <result column="tem_Name" property="tem_Name" jdbcType="VARCHAR"/>
+                </association>
+            </association>
+        </association>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="ApplicationResultMap" resultType="com.sxy.zongce.entity.Application">
+        SELECT * FROM application,awardlever WHERE application.awl_Id = awardlever.awl_Id
+    </select>
+
+    <!-- 查询申请单最大的id，用于生成自增id -->
+    <select id="findMaxId" resultType="String">
+        SELECT MAX(apply_Id) FROM application
+    </select>
+
+    <!-- 查询申请单是否存在 -->
+    <select id="isExist" resultType="com.sxy.zongce.entity.Application">
+        SELECT * FROM application WHERE apply_Id = #{apply_Id}
+    </select>
+
+    <!-- 根据id查询认证申请状态 -->
+    <select id="checkState" resultType="String">
+        SELECT state FROM application WHERE apply_Id = #{apply_Id}
+    </select>
+    
+    <!-- 新增认证申请 -->
+    <insert id="addApp" parameterType="com.sxy.zongce.entity.Application">
+        INSERT INTO application
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="apply_Id != null">apply_Id,</if>
+            <if test="att_url != null">att_url,</if>
+            <if test="apply_detail != null">apply_detail,</if>
+            apply_time,semester,
+            <if test="stu_Id != null">stu_Id,</if>
+            <if test="awl_Id != null">awl_Id,</if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="apply_Id != null">#{apply_Id},</if>
+            <if test="att_url != null">#{att_url},</if>
+            <if test="apply_detail != null">#{apply_detail},</if>
+            NOW(),#{semester},
+            <if test="stu_Id != null">#{stu_Id},</if>
+            <if test="awl_Id != null">#{awl_Id},</if>
+        </trim>
+    </insert>
+
+    <!--根据id获取待修改申请单-->
+    <select id="getApplication" resultType="com.sxy.zongce.vo.ApplicationVo">
+        SELECT apply_Id,application.stu_Id,stu_Name,project.tem_Id,tem_Name,awardlever.pro_Id,pro_Name,
+               application.awl_Id,awl_Score,apply_detail,reason
+        FROM application,awardlever,project,template,student
+        WHERE application.awl_Id = awardlever.awl_Id
+          AND awardlever.pro_Id = project.pro_Id
+          AND project.tem_Id = template.tem_Id
+          AND application.stu_Id = student.stu_Id
+          AND apply_Id = #{apply_Id}
+    </select>
+
+    <!-- 修改认证申请 -->
+    <update id="updateApp" parameterType="com.sxy.zongce.entity.Application">
+        UPDATE application
+        <set>
+            <if test="att_url != null">att_url = #{att_url},</if>
+            <if test="apply_detail != null">apply_detail = #{apply_detail},</if>
+            <if test="apply_time != null">apply_time = NOW(),</if>
+            <if test="semester != null">semester = #{semester}</if>
+        </set>
+        WHERE apply_Id = #{apply_Id}
+    </update>
+
+
+    <!-- 根据辅导员id分页查询所有状态为待审核的认证申请 -->
+    <select id="findUnchecked" resultType="com.sxy.zongce.vo.ApplicationVo">
+        SELECT apply_Id,application.stu_Id,stu_Name,tem_Name,awl_Detail,awl_Score,apply_detail,apply_time
+        FROM application,student,awardlever,project,template
+        WHERE application.stu_Id = student.stu_Id
+          AND application.awl_Id = awardlever.awl_Id
+          AND awardlever.pro_Id = project.pro_Id
+          AND project.tem_Id = template.tem_Id
+          AND state = '待审核'
+          AND menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 根据辅导员id分页条件查询所有状态为待审核的认证申请 -->
+    <select id="searchUnchecked" resultType="com.sxy.zongce.vo.ApplicationVo">
+        SELECT apply_Id,application.stu_Id,stu_Name,tem_Name,awl_Detail,awl_Score,apply_detail,apply_time
+        FROM application,student,awardlever,project,template
+        WHERE application.stu_Id = student.stu_Id
+          AND application.awl_Id = awardlever.awl_Id
+          AND awardlever.pro_Id = project.pro_Id
+          AND project.tem_Id = template.tem_Id
+          AND state = '待审核'
+          AND menter_Id = #{menter_Id}
+          <if test="startTime != null">
+            AND apply_time <![CDATA[>=]]>  #{startTime}
+          </if>
+          <if test="endTime != null ">
+            AND apply_time <![CDATA[<=]]>  #{endTime}
+          </if>
+          <if test="stu_Id != null and stu_Id != ''">
+              AND application.stu_Id LIKE CONCAT('%','${stu_Id}','%')
+          </if>
+        <if test="stu_Name != null and stu_Name != ''">
+            AND stu_Name LIKE CONCAT('%','${stu_Name}','%')
+        </if>
+    </select>
+
+    <!-- 根据申请单id更改状态为通过 -->
+    <update id="passApp" parameterType="String">
+        UPDATE application SET state = '通过' WHERE apply_Id = #{apply_Id}
+    </update>
+
+    <!-- 根据申请单id更改状态为不通过 -->
+    <update id="failApp" parameterType="com.sxy.zongce.entity.Application">
+        UPDATE application
+        SET state = '不通过'
+        <if test="reason != null and reason != ''">
+          ,reason = #{reason}
+        </if>
+        WHERE apply_Id = #{apply_Id}
+    </update>
+
+    <!-- 撤审 -->
+    <update id="cancelApp" parameterType="String">
+        UPDATE application
+        SET state = '待审核' , reason = ''
+        WHERE apply_Id = #{apply_Id}
+    </update>
+
+    <!-- 根据id删除认证申请 -->
+    <delete id="deleteApp" parameterType="String">
+        DELETE FROM application WHERE apply_Id = #{apply_Id}
+    </delete>
+
+    <!-- 根据id获取附件地址 -->
+    <select id="checkAtt" resultType="String">
+        SELECT att_url FROM application WHERE apply_Id = #{apply_Id}
+    </select>
+
+    <!-- 根据id查看不通过原因 -->
+    <select id="checkReason" resultType="String">
+        SELECT reason FROM application
+        WHERE state = '不通过'
+          AND apply_Id = #{apply_Id}
+    </select>
+</mapper>

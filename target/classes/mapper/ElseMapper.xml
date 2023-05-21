@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.ElseMapper">
+    <resultMap id="ElseResultMap" type="com.sxy.zongce.entity.Else">
+        <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        <result column="E_score" property="E_score" jdbcType="FLOAT"/>
+        <result column="detail" property="detail" jdbcType="VARCHAR"/>
+        <result column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联学生表 -->
+        <association property="student" javaType="Student">
+            <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+            <result column="major" property="major" jdbcType="VARCHAR"/>
+            <result column="grade" property="grade" jdbcType="NUMERIC"/>
+            <result column="stu_class" property="stu_class" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="ElseResultMap" resultType="com.sxy.zongce.entity.Else">
+        SELECT * FROM elsepoint,student WHERE elsepoint.stu_Id = student.stu_Id
+    </select>
+
+    <!-- 增量导入其他加分 -->
+    <insert id="incrementImport" parameterType="com.sxy.zongce.entity.Else">
+        INSERT INTO elsepoint (stu_Id, detail, semester, E_score) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.stu_Id}, #{item.detail}, #{item.semester},#{item.E_score})
+        </foreach>
+    </insert>
+
+    <!-- 覆盖导入其他加分 -->
+    <insert id="coverImport" parameterType="com.sxy.zongce.entity.Else">
+        INSERT INTO elsepoint (stu_Id, detail, semester, E_score) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.stu_Id}, #{item.detail}, #{item.semester},#{item.E_score})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        detail = VALUES(detail),
+        E_score = VALUES(E_score)
+    </insert>
+
+    <!-- 录入其他加分 -->
+    <insert id="addElse" parameterType="com.sxy.zongce.entity.Else">
+        INSERT INTO elsepoint
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            semester,
+            <if test="E_score != null">E_score,</if>
+            <if test="detail != null">detail,</if>
+            <if test="stu_Id != null">stu_Id</if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            #{semester},
+            <if test="E_score != null">#{E_score},</if>
+            <if test="detail != null">#{detail},</if>
+            <if test="stu_Id != null">#{stu_Id}</if>
+        </trim>
+    </insert>
+
+    <!-- 根据辅导员id分页查询其他加分 -->
+    <select id="listElse" resultType="com.sxy.zongce.vo.ElseVo">
+        SELECT grade,major,stu_class,elsepoint.stu_Id,stu_Name,detail,semester,E_score FROM elsepoint,student
+        WHERE elsepoint.stu_Id = student.stu_Id
+          AND menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 根据辅导员id分页条件查询其他加分 -->
+    <select id="searchElse" resultType="com.sxy.zongce.vo.ElseVo">
+        SELECT grade,major,stu_class,elsepoint.stu_Id,stu_Name,detail,semester,E_score FROM elsepoint,student
+        WHERE elsepoint.stu_Id = student.stu_Id
+        AND menter_Id = #{menter_Id}
+        <if test="grade != 0 and grade != null">
+            AND grade LIKE CONCAT('%','${grade}','%')
+        </if>
+        <if test="major != null">
+            AND major LIKE CONCAT('%','${major}','%')
+        </if>
+        <if test="stu_class != null">
+            AND stu_class LIKE CONCAT('%','${stu_class}','%')
+        </if>
+        <if test="stu_Id != null and stu_Id != ''">
+            AND elsepoint.stu_Id LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="stu_Name != null and stu_Name != ''">
+            AND stu_Name LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="semester != null">
+            AND semester LIKE CONCAT('%','${semester}','%')
+        </if>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.PublicWelfareMapper">
+    <resultMap id="PublicWelfareResultMap" type="com.sxy.zongce.entity.PublicWelfare">
+        <result column="PW_score" property="PW_score" jdbcType="FLOAT"/>
+        <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        <result column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联学生表 -->
+        <association property="student" javaType="Student">
+            <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+            <result column="major" property="major" jdbcType="VARCHAR"/>
+            <result column="grade" property="grade" jdbcType="NUMERIC"/>
+            <result column="stu_class" property="stu_class" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="PublicWelfareResultMap" resultType="com.sxy.zongce.entity.PublicWelfare">
+        SELECT * FROM publicwelfare,student WHERE publicwelfare.stu_Id = student.stu_Id
+    </select>
+
+    <!-- 增量导入公益积分 -->
+    <insert id="incrementImport" parameterType="com.sxy.zongce.entity.PublicWelfare">
+        INSERT INTO publicwelfare (stu_Id, PW_score, semester) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.stu_Id}, #{item.PW_score}, #{item.semester})
+        </foreach>
+    </insert>
+
+    <!-- 覆盖导入公益积分 -->
+    <insert id="coverImport" parameterType="com.sxy.zongce.entity.PublicWelfare">
+        INSERT INTO publicwelfare (stu_Id, PW_score, semester) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.stu_Id}, #{item.PW_score}, #{item.semester})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        PW_score = VALUES(PW_score)
+    </insert>
+
+    <!-- 根据辅导员id分页查询公益积分 -->
+    <select id="listPW" resultType="com.sxy.zongce.vo.PublicWelfareVo">
+        SELECT grade,major,stu_class,publicwelfare.stu_Id,stu_Name,PW_score,semester
+        FROM publicwelfare,student
+        WHERE publicwelfare.stu_Id = student.stu_Id
+          AND menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 根据辅导员id分页条件查询公益积分 -->
+    <select id="searchPW" resultType="com.sxy.zongce.vo.PublicWelfareVo">
+        SELECT grade,major,stu_class,publicwelfare.stu_Id,stu_Name,PW_score,semester
+        FROM publicwelfare,student
+        WHERE publicwelfare.stu_Id = student.stu_Id
+        AND menter_Id = #{menter_Id}
+        <if test="grade != 0 and grade != null">
+            AND grade LIKE CONCAT('%','${grade}','%')
+        </if>
+        <if test="major != null">
+            AND major LIKE CONCAT('%','${major}','%')
+        </if>
+        <if test="stu_class != null">
+            AND stu_class LIKE CONCAT('%','${stu_class}','%')
+        </if>
+        <if test="stu_Id != null and stu_Id != ''">
+            AND publicwelfare.stu_Id LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="stu_Name != null and stu_Name != ''">
+            AND stu_Name LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="semester != null">
+            AND semester LIKE CONCAT('%','${semester}','%')
+        </if>
+    </select>
+
+
+</mapper>

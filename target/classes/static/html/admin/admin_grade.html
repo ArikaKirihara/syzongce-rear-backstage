@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成果级别管理</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/admin_base.css">
+    <link rel="stylesheet" href="../../css/admin_grade.css">
+<!--    <link rel="stylesheet" href="../../fontawesome-free-6.2.0-web/css/all.min.css">-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="#">成果级别管理</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <div class="item sheet">
+                    <button class="r_btn insert" data-name="r">添加</button>
+                    <table class="table_1">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>
+                                    <ul>
+                                        <li><a href="#" id="pro_name">项目类别<i class="fas fa-caret-down"></i></a>
+                                            <div class="dropdown-menu">
+                                                <ul id="menu_content" style="overflow-y: auto; height: 300px">
+                                                    <li><a href="#" class="projects">选项1</a></li>
+                                                    <li><a href="#" class="projects">选项2</a></li>
+                                                    <li><a href="#" class="projects">选项3</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </th>
+                                <th>成果级别</th>
+                                <th>分值</th>
+<!--                                <th>操作</th>-->
+                                <th>显示/隐藏</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list_content">
+                            <tr>
+                                <td>1</td>
+                                <td>优秀团干</td>
+                                <td>国家级荣誉</td>
+                                <td>6</td>
+<!--                                <td class="t_btn"><input type="button" value="修改" class="r_btn btn3"-->
+<!--                                        data-name="r-1"></td>-->
+                                <td>
+                                    <div class="switch">
+                                        <input type="checkbox" id="switch1" />
+                                        <label for="switch1">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        <div class="page_turn">
+                            <span>转到</span>
+                            <input name="pageIndex" type="text" value="1" id="pageIndex">
+                        </div>
+                        <div class="page_amount">
+                            <span>共<span id="totalPages">2</span>页</span>
+                            <span><span id="totalSize">16</span>条</span>
+                        </div>
+                        <div class="page_btn">
+                            <a href="#" id="pre_page">&lt;</a>
+                            <a href="#" id="next_page">&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 弹窗 -->
+            <div class="result-preview">
+                <div class="preview1" data-target="r">
+                    <p>添加成果级别</p>
+                    <select id="model" required="required">
+                            <option>--请选择项目类别--</option>
+                            <option>国家奖学金</option>
+                            <option>优秀团干</option>
+                            <option>优秀学生干部</option>
+                    </select>
+                    <input type="text" class="add" id="addname" placeholder="成果级别名称" required="required">
+                    <input type="text" class="add" id="addscore" placeholder="分值" required="required">
+                    <div class="buttons">
+                        <input type="button" value="确认" class="r_operate confirm" id="confirm">
+                        <input type="button" value="取消" class="r_operate cancel">
+                    </div>
+                </div>
+<!--                <div class="preview" data-target="r-1">-->
+<!--                    <p>修改成果级别名称</p>-->
+<!--                    <select id="model">-->
+<!--                        <option>&#45;&#45;请选择项目类别&#45;&#45;</option>-->
+<!--                        <option>国家奖学金</option>-->
+<!--                        <option>优秀团干</option>-->
+<!--                        <option>优秀学生干部</option>-->
+<!--                    </select>-->
+<!--                    <input type="text" class="add" placeholder="成果级别名称" required="required">-->
+<!--                    <input type="text" class="add" placeholder="分值" required="required">-->
+<!--                    <div class="buttons">-->
+<!--                        <input type="button" value="确认" class="r_operate confirm">-->
+<!--                        <input type="button" value="取消" class="r_operate cancel">-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../../js/base.js"></script>
+    <script src="../../js/admin_grade.js"></script>
+    <script>
+        let page = 1;
+        var pro_Id_flag;
+        var state = 0;
+        $("#pre_page").click(function () {
+            if (page <= 1){
+                alert("此页为第一页");
+            }else {
+                page = page - 1;
+                if (state == 0){
+                    showListContent(page);
+                }else {
+                    showSelectList(pro_Id_flag,page);
+                }
+            }
+        })
+        $("#next_page").click(function () {
+            if (page == $("#totalPages").text()){
+                alert("此页为最后一页");
+            }else {
+                page++;
+                if (state == 0){
+                    showListContent(page);
+                }else {
+                    showSelectList(pro_Id_flag,page);
+                }
+            }
+        })
+
+        //输入页码跳转
+        $("#pageIndex").keydown(function (event) {//keydown监听键盘 keyCode == 13回车
+            if (event.keyCode == 13){
+                // alert(typeof $("#pageIndex").val());
+                // alert(typeof $("#totalPages").text());
+
+                if (parseInt($("#pageIndex").val()) >= 1 && parseInt($("#pageIndex").val()) <= parseInt($("#totalPages").text())){
+
+                    page = $("#pageIndex").val();
+                    if (state == 0){
+                        showListContent(page);
+                    }else {
+                        showSelectList(pro_Id_flag,page);
+                    }
+                }else {
+                    alert("请输入1 ~ " + $("#totalPages").text() + "的页码");
+                }
+
+            }
+        })
+
+        $(document).ready(function () {
+            showListContent(page);
+            showMenuContent();
+        });
+        function showListContent(page) {
+            //清空tbody标签中的数据
+            $("#list_content").empty();
+            $.ajax({
+                url: "/award-lever/list",
+                type: "GET",
+                data: "pageNum=" + page + "&pageSize=8",
+                dataType: "JSON",
+                success: function (json) {
+                    let list = json.data.content;
+                    //console.log(list.length);
+                    $("#totalSize").html(json.data.totalSize)
+                    $("#totalPages").html(json.data.totalPages)
+                    $("#pageIndex").val(page)
+                    for (let i = 0; i < list.length; i++) {
+                        //alert(list[i].stu_Name);
+                        let tr = '<tr>\n' +
+                            '<td>#{number}</td>\n' +
+                            '<td>#{pro_Name}</td>\n' +
+                            '<td>#{awl_Detail}</td>\n' +
+                            '<td>#{awl_Score}</td>\n' +
+                            '<td>\n' +
+                            '<div class="switch">\n' +
+                            '<input onclick="update(#{awl_Id})" type="checkbox" id="switch#{awl_Id}" #{awl_Display} />\n' +
+                            '<label for="switch#{awl_Id}">\n' +
+                            '<span></span>\n' +
+                            '</label>\n' +
+                            '</div>\n' +
+                            '</td>'
+                        '</tr>';
+                        tr = tr.replace(/#{awl_Id}/g, list[i].awl_Id.replace("A", ""));
+                        tr = tr.replace(/#{pro_Name}/g, list[i].pro_Name);
+                        tr = tr.replace(/#{awl_Detail}/g, list[i].awl_Detail);
+                        tr = tr.replace(/#{awl_Score}/g, list[i].awl_Score);
+                        if (list[i].awl_Display == "是") {
+                            tr = tr.replace(/#{awl_Display}/g, "checked")
+                        }
+
+                        tr = tr.replace(/#{number}/g, i + 1 + (page - 1) * 8);
+
+                        $("#list_content").append(tr);
+                    }
+                },
+                error: function (xhr) {
+                    alert("数据加载产生未知异常," + xhr, msg)
+                }
+            });
+        }
+
+        function showMenuContent(){
+            //清空menu_content中的数据
+            $("#menu_content").empty();
+
+            //清空model中的数据
+            $("#model").empty();
+            $("#model").append('<option value="">--请选择项目类别--</option>');
+
+            $.ajax({
+                url: "/project/list",
+                type: "GET",
+                data: "pageNum=1&pageSize=9999",
+                dataType : "JSON",
+                success : function (json) {
+                    let list = json.data.content;
+                    for(let i = 0 ; i < list.length ; i++){
+                        let li = '<li><a href="#" class="projects#{pro_Id}" onclick="select_pro(#{pro_Id})">#{pro_Name}</a></li>';
+                        li = li.replace(/#{pro_Id}/g , list[i].pro_Id.replace("P",""));
+                        li = li.replace(/#{pro_Name}/g , list[i].pro_Name);
+
+                        $("#menu_content").append(li);
+
+                        let option = '<option value="#{pro_Id}" id="">#{pro_Name}</option>';
+                        option = option.replace(/#{pro_Id}/g , list[i].pro_Id);
+                        option = option.replace(/#{pro_Name}/g , list[i].pro_Name);
+
+                        $("#model").append(option);
+                    }
+                },
+                error : function (xhr) {
+                    alert("数据加载产生未知异常," + xhr,msg)
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function update(awl_Id) {
+            $.ajax({
+                url: "/award-lever/" + awl_Id + "/switch",
+                type: "PUT",
+                dataType : "JSON",
+                success : function (json) {
+                    if (json.code == 200){
+                        alert('修改成功');
+                    }
+                    else{
+                        alert('修改失败');
+                    }
+                },
+                error : function (xhr) {
+                    alert("修改状态产生未知异常," + xhr.detailMessage)
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $("#confirm").click(function () {
+            alert("1");
+            $.ajax({
+                url: "/award-lever/add",
+                type: "POST",
+                data: "pro_Id=" + $("#model").val() + "&awl_Detail=" + $("#addname").val() + "&awl_Score=" + parseFloat($("#addscore").val()),
+                dataType : "JSON",
+                success : function (json) {
+                    if (json.code == 200){
+                        alert('添加成功');
+                        window.location.reload();
+                    }
+                    else{
+                        alert('添加失败');
+                    }
+                },
+                error : function (xhr) {
+                    alert("添加时产生未知异常," + xhr.detailMessage)
+                }
+            });
+
+        })
+    </script>
+    <script>
+        function select_pro(pro_Id) {
+            page = 1;
+            state = 1;
+            pro_Id_flag = pro_Id;
+            showSelectList(pro_Id,1)
+        }
+
+        function showSelectList(pro_Id,page){
+            $("#list_content").empty();
+            $.ajax({
+                url: "/award-lever/" + pro_Id + "/filt",
+                type: "GET",
+                data: "pageNum=" + page + "&pageSize=8",
+                dataType : "JSON",
+                success: function (json) {
+                    let list = json.data.content;
+                    //console.log(list.length);
+                    $("#totalSize").html(json.data.totalSize)
+                    $("#totalPages").html(json.data.totalPages)
+                    $("#pageIndex").val(page)
+                    for (let i = 0; i < list.length; i++) {
+                        //alert(list[i].stu_Name);
+                        let tr = '<tr>\n' +
+                            '<td>#{number}</td>\n' +
+                            '<td>#{pro_Name}</td>\n' +
+                            '<td>#{awl_Detail}</td>\n' +
+                            '<td>#{awl_Score}</td>\n' +
+                            '<td>\n' +
+                            '<div class="switch">\n' +
+                            '<input onclick="update(#{awl_Id})" type="checkbox" id="switch#{awl_Id}" #{awl_Display} />\n' +
+                            '<label for="switch#{awl_Id}">\n' +
+                            '<span></span>\n' +
+                            '</label>\n' +
+                            '</div>\n' +
+                            '</td>'
+                        '</tr>';
+                        tr = tr.replace(/#{awl_Id}/g, list[i].awl_Id.replace("A", ""));
+                        tr = tr.replace(/#{pro_Name}/g, list[i].pro_Name);
+                        tr = tr.replace(/#{awl_Detail}/g, list[i].awl_Detail);
+                        tr = tr.replace(/#{awl_Score}/g, list[i].awl_Score);
+                        if (list[i].awl_Display == "是") {
+                            tr = tr.replace(/#{awl_Display}/g, "checked")
+                        }
+
+                        tr = tr.replace(/#{number}/g, i + 1 + (page - 1) * 8);
+
+                        $("#list_content").append(tr);
+                    }
+                },
+                error: function (xhr) {
+                    alert("数据加载产生未知异常," + xhr, msg)
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

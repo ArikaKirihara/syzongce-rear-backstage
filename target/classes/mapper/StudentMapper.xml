@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.StudentMapper">
+    <resultMap id="StudentResultMap" type="com.sxy.zongce.entity.Student">
+        <id column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+        <result column="stu_Pwd" property="stu_Pwd" jdbcType="VARCHAR"/>
+        <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+        <result column="stu_Sex" property="stu_Sex" jdbcType="CHAR"/>
+        <result column="stu_Dept" property="stu_Dept" jdbcType="VARCHAR"/>
+        <result column="major" property="major" jdbcType="VARCHAR"/>
+        <result column="grade" property="grade" jdbcType="NUMERIC"/>
+        <result column="stu_class" property="stu_class" jdbcType="VARCHAR"/>
+        <result column="identity_Num" property="identity_Num" jdbcType="CHAR"/>
+        <result column="menter_Id" property="menter_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联辅导员表 -->
+        <association property="menter" javaType="Menter">
+            <result column="m_Name" property="m_Name" jdbcType="VARCHAR"/>
+            <result column="admin_Id" property="admin_Id" jdbcType="VARCHAR"/>
+        </association>
+        <!-- 一对一关联管理员表 -->
+        <association property="admin" javaType="Admin">
+            <result column="admin_Name" property="admin_Name" jdbcType="VARCHAR"/>
+        </association>
+        <!-- 一对多关联申请单表 -->
+        <collection property="applications" ofType="Application" javaType="List">
+            <id column="apply_Id" property="apply_Id" jdbcType="VARCHAR"/>
+            <result column="att_url" property="att_url" jdbcType="VARCHAR"/>
+            <result column="apply_detail" property="apply_detail" jdbcType="VARCHAR"/>
+            <result column="apply_time" property="apply_time" jdbcType="DATE"/>
+            <result column="state" property="state" jdbcType="VARCHAR"/>
+            <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        </collection>
+        <!-- 一对多关联公益积分表 -->
+        <collection property="publicWelfares" ofType="PublicWelfare" javaType="List">
+            <result column="PW_score" property="PW_score" jdbcType="FLOAT"/>
+            <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        </collection>
+        <!-- 一对多关联违规违纪表 -->
+        <collection property="violations" ofType="Violation" javaType="List">
+            <id column="vio_Id" property="vio_Id" jdbcType="VARCHAR"/>
+            <result column="vio_Score" property="vio_Score" jdbcType="VARCHAR"/>
+            <result column="semester" property="semester" jdbcType="VARCHAR"/>
+            <result column="vio_Time" property="vio_Time" jdbcType="VARCHAR"/>
+            <result column="vio_detail" property="vio_detail" jdbcType="VARCHAR"/>
+            <result column="cancel_Time" property="cancel_Time" jdbcType="DATE"/>
+        </collection>
+        <!-- 一对多关联绩点表 -->
+        <collection property="gpas" ofType="GPA" javaType="List">
+            <result column="GPA_score" property="GPA_score" jdbcType="FLOAT"/>
+            <result column="semester" property="semester" jdbcType="VARCHAR"/>
+            <result column="ungetcredit" property="ungetcredit" jdbcType="FLOAT"/>
+        </collection>
+        <!-- 一对多关联其他加分表 -->
+        <collection property="elses" ofType="Else" javaType="List">
+            <result column="semester" property="semester" jdbcType="VARCHAR"/>
+            <result column="E_score" property="E_score" jdbcType="FLOAT"/>
+            <result column="detail" property="detail" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="scoreByStudent" type="com.sxy.zongce.vo.ScoreVo">
+        <result column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+        <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+        <result column="ungetcredit" property="ungetcredit" jdbcType="FLOAT"/>
+        <result column="total_GPA" property="total_GPA" jdbcType="FLOAT"/>
+        <result column="total_moral" property="total_moral" jdbcType="FLOAT"/>
+        <result column="total_competition" property="total_competition" jdbcType="FLOAT"/>
+        <result column="total_innovate" property="total_innovate" jdbcType="FLOAT"/>
+        <result column="total_publicwelfare" property="total_publicwelfare" jdbcType="FLOAT"/>
+        <result column="total_elsepoint" property="total_elsepoint" jdbcType="FLOAT"/>
+        <result column="total_violate" property="total_violate" jdbcType="FLOAT"/>
+        <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        <result column="total_score" property="total_score" jdbcType="FLOAT"/>
+        <result column="ranking" property="ranking" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="StudentResultMap" resultType="com.sxy.zongce.entity.Student">
+        SELECT * FROM student,gpa WHERE student.stu_Id = gpa.stu_Id
+    </select>
+
+    <!-- 查询学生是否存在 -->
+    <select id="isExist" resultType="com.sxy.zongce.entity.Student">
+        SELECT * FROM student WHERE stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 根据学号查询密码 -->
+    <select id="findPwdById" resultType="String">
+        SELECT stu_Pwd FROM student WHERE stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 根据学号修改密码 -->
+    <update id="updatePwd" parameterType="com.sxy.zongce.entity.Student">
+        UPDATE student
+            <set>
+                <if test="stu_Pwd != null">
+                    stu_Pwd = #{stu_Pwd},
+                </if>
+            </set>
+            WHERE stu_Id = #{stu_Id}
+    </update>
+
+    <!-- 根据学号获取学生姓名 -->
+    <select id="getStuName" resultType="String">
+        SELECT stu_Name FROM student WHERE stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 通过学号查询学生个人信息 -->
+    <select id="findStuInfo" resultType="com.sxy.zongce.vo.StudentVo">
+        SELECT stu_Id,stu_Name,stu_Sex,
+               student.grade,stu_Dept,major,stu_class,identity_Num,m_Name
+        FROM student,menter
+        WHERE student.menter_Id = menter.menter_Id
+          AND student.stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 通过辅导员工号查询学生信息 -->
+    <select id="findStuByMenter" resultType="com.sxy.zongce.vo.StudentVo">
+        SELECT stu_Id,stu_Name,stu_Sex,
+               student.grade,stu_Dept,major,stu_class,identity_Num,m_Name
+        FROM student,menter
+        WHERE student.menter_Id = menter.menter_Id
+        AND student.menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 辅导员条件查询学生信息 -->
+    <select id="searchStuByMenter" resultType="com.sxy.zongce.vo.StudentVo">
+        SELECT stu_Id,stu_Name,stu_Sex,
+        student.grade,stu_Dept,major,stu_class,identity_Num,m_Name
+        FROM student,menter
+        WHERE student.menter_Id = menter.menter_Id
+        AND student.menter_Id = #{menter_Id}
+        <if test="stu_Id != null and stu_Id != ''">
+            AND stu_Id LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="stu_Name != null and stu_Name != ''">
+            AND stu_Name LIKE CONCAT('%','${stu_Name}','%')
+        </if>
+        <if test="grade != 0 and grade != null">
+            AND student.grade LIKE CONCAT('%','${grade}','%')
+        </if>
+        <if test="major != null and major != ''">
+            AND major LIKE CONCAT('%','${major}','%')
+        </if>
+        <if test="stu_class != null and stu_class != ''">
+            AND stu_class LIKE CONCAT('%','${stu_class}','%')
+        </if>
+
+
+    </select>
+
+    <!-- 通过管理员工号查询学生信息 -->
+    <select id="findStuByAdmin" resultType="com.sxy.zongce.vo.StudentVo">
+        SELECT stu_Id,stu_Name,stu_Sex,
+               student.grade,stu_Dept,major,stu_class,identity_Num,m_Name
+        FROM student,menter,admin
+        WHERE student.menter_Id = menter.menter_Id
+          AND menter.admin_Id = admin.admin_Id
+          AND menter.admin_Id = #{admin_Id}
+    </select>
+
+    <!-- 管理员条件查询学生信息 -->
+    <select id="searchStuByAdmin" resultType="com.sxy.zongce.vo.StudentVo">
+        SELECT stu_Id,stu_Name,stu_Sex,
+        student.grade,stu_Dept,major,stu_class,identity_Num,m_Name
+        FROM student,menter,admin
+        WHERE student.menter_Id = menter.menter_Id
+        AND menter.admin_Id = admin.admin_Id
+        AND menter.admin_Id = #{admin_Id}
+        <if test="stu_Id != null and stu_Id != ''">
+            AND stu_Id LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="stu_Name != null and stu_Name != ''">
+            AND stu_Name LIKE CONCAT('%','${stu_Name}','%')
+        </if>
+        <if test="grade != 0 and grade != null">
+            AND student.grade LIKE CONCAT('%','${grade}','%')
+        </if>
+        <if test="major != null and major != ''">
+            AND major LIKE CONCAT('%','${major}','%')
+        </if>
+        <if test="stu_class != null and stu_class != ''">
+            AND stu_class LIKE CONCAT('%','${stu_class}','%')
+        </if>
+
+    </select>
+
+    <!-- 根据学生id分页查询认证申请 -->
+    <select id="findApp" resultType="com.sxy.zongce.vo.ApplicationVo">
+        SELECT apply_Id,application.stu_Id,stu_Name,tem_Name,pro_Name,awl_Detail,apply_time,awl_Score,att_url,state,reason
+        FROM application,student,awardlever,project,template
+        WHERE application.stu_Id = student.stu_Id
+          AND application.awl_Id = awardlever.awl_Id
+          AND awardlever.pro_Id = project.pro_Id
+          AND project.tem_Id = template.tem_Id
+          AND application.stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 学生查看综测成绩 -->
+    <select id="checkScoreByStudent" resultMap="scoreByStudent" statementType="CALLABLE">
+        {CALL pro_total_score(#{stu_Id, mode=IN, jdbcType=VARCHAR},null,'80210122',null,null,null,null,1,14,
+            #{pageCount, mode=OUT, jdbcType=NUMERIC},#{totalRecordCount, mode=OUT, jdbcType=NUMERIC})}
+    </select>
+
+    <!-- 模块详细分值 -->
+    <select id="checkScoreDetail" resultType="com.sxy.zongce.vo.AwardLeverVo">
+        SELECT tem_Name,pro_Name,awl_Detail,awl_Score FROM template,project,awardlever,application
+        WHERE template.tem_Id = project.tem_Id
+          AND project.pro_Id = awardlever.pro_Id
+          AND application.awl_Id = awardlever.awl_Id
+          AND stu_Id = #{stu_Id}
+          AND semester = #{semester}
+    </select>
+</mapper>

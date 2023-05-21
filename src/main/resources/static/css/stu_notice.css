@@ -1,0 +1,99 @@
+@charset "utf-8";
+
+/* CSS Document */
+.content .item {
+    margin:10px 5px;
+    width: 100%;   
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+    font-weight: normal;            
+}
+
+.content .sheet {
+    height: 600px;
+}
+
+.content .sheet h2 {
+    margin: 10px 5px;
+}
+
+.content .sheet .table_1 {
+    margin: 10px 5px;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.content .sheet .table_1 tr {
+    text-align: center;
+}
+
+.content .sheet .table_1 tr td {
+    font-size: 14px;
+    text-align: center;
+    float: center;
+    height: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;    
+}
+
+.no_title {
+    float:left;
+}
+
+.no_title a:visited {
+    color: #000;
+}
+
+.no_title a:hover {
+    color: rgb(11, 140, 245);
+}
+
+.no_title a:active {
+    color: red;
+}
+
+.content .item .page {
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+}
+
+.content .item .page a {
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    border: 1px solid #ccc;
+    width: 44px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: rgb(251, 251, 251);
+    text-decoration: none;
+}
+
+.content .item .page .page_turn ,
+.content .item .page .page_amount ,
+.content .item .page .page_btn {
+    display: inline-block;
+    height: 25px;
+}
+
+.content .item .page .page_turn #pageIndex {
+    width: 35px;
+    height: 20px;
+    text-align: center;
+}
+
+.content .item .page a:hover {
+    background: #1db69a;
+    color: #fff;
+    border: 1px solid #1db69a;
+}

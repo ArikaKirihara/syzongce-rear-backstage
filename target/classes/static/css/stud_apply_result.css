@@ -1,0 +1,226 @@
+/* 查看申请结果css */
+.content .item {
+    margin:10px 5px;
+    width: 100%;   
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+    font-weight: normal;            
+}
+
+.content .item {
+    height: 600px;
+}
+
+.content .item .table_control {
+    margin: 10px 10px 5px 5px;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.content .item .table_control tr th {
+    background: rgb(2, 62, 118);
+    color: #fff;
+    border-right: 1px solid #fff;
+    padding:10px 5px;
+}
+ 
+.content .item .table_control tr td {
+    font-size: 14px;
+    padding: 10px 5px; 
+    border-bottom:1px solid rgb(206, 206, 206);
+}
+
+/*.table_control .t_btn {*/
+/*    display: flex;*/
+/*    justify-content: space-around;*/
+/*}*/
+
+.table_control .t_btn > input {
+    width:50px;
+    height: 25px;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+}
+
+.table_control .t_btn > button {
+    width:50px;
+    height: 25px;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+}
+
+.table_control .t_btn .btn2 a{
+    color: #fff;
+    background-color: rgb(135, 135, 135);
+}
+
+.table_control .t_btn .btn2 {
+    color: #fff;
+    background-color: rgb(135, 135, 135);
+}
+
+.table_control .t_btn .btn3 a{
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+}
+
+.table_control .t_btn .btn3 {
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+}
+
+.table_control .t_btn .btn3:hover {
+    background-color: rgb(60, 163, 248);
+}
+
+.table_control .t_btn .btn3:active {
+    background-color: rgb(6, 81, 143);
+}
+
+.table_control .t_btn .btn4 {
+    color: #fff;
+    background-color: rgb(227, 20, 20);
+}
+
+.table_control .t_btn .btn4:hover {
+    background-color: rgb(228, 64, 64);
+}
+
+.table_control .t_btn .btn4:active {
+    background-color: rgb(175, 17, 17);
+}
+
+.content .item .page {
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+}
+
+.content .item .page a {
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    border: 1px solid #ccc;
+    width: 44px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: rgb(251, 251, 251);
+    text-decoration: none;
+}
+
+.content .item .page .page_turn ,
+.content .item .page .page_amount ,
+.content .item .page .page_btn {
+    display: inline-block;
+    height: 25px;
+}
+
+.content .item .page .page_turn #pageIndex {
+    width: 35px;
+    height: 20px;
+    text-align: center;
+}
+
+.content .item .page a:hover {
+    background: #1db69a;
+    color: #fff;
+    border: 1px solid #1db69a;
+}
+
+
+.result-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, .8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-preview .preview {
+    display: none;
+    padding: 3rem;
+    text-align:center;
+    background: #fff;
+    position: relative;
+    width: 30rem;
+    margin-left: 10%;
+}
+
+.result-preview .preview.active {
+    display: inline-block;
+}
+
+.result-preview .preview p {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.result-preview .preview .buttons{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 10px;
+}
+
+.result-preview .preview .buttons .confirm {
+    width: 60px;
+    height: 30px;
+    background-color: rgb(0, 21, 41);
+    color: #fff;
+    border-radius: 5%;
+    border: 1px solid #ccc;
+}
+
+.result-preview .preview .buttons .cancel {
+    width: 60px;
+    height: 30px;
+    border-radius: 5%;
+    border: 1px solid #ccc;
+}
+
+.result-preview .preview .reason {
+    display: flex;
+    justify-content: space-around;
+}
+
+#must {
+    color: red;
+}
+#re_content {
+    min-width: 200px;
+    min-height: 100px;
+    max-width: 200px;
+    max-height: 100px;
+}
+
+#cause {
+    font-size: 18px;
+}
+
+#f_reason {
+    display: block;
+    width: 50px;
+    height: 25px;
+    margin: auto;
+    margin-top: 5px;
+    background-color: rgb(11, 140, 245);
+    color: white;
+    border-radius: 10%;
+    border: 1px solid #ccc;
+}
+
+#f_reason:hover {
+    background-color: rgb(60, 163, 248);
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改公告信息</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/admin_base.css">
+    <link rel="stylesheet" href="../../css/admin_notice_update.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="#">修改公告信息</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <div class="item">
+                    <form class="form_control"> 
+                        <div class="form_item link">
+                            <label class="label_control">标题</label>
+                            <input type="text" required="required" id="title">
+                        </div>
+                        <div class="form_item link">
+                            <label class="label_control">链接</label>
+                            <textarea name="lianjie" id="lianjie" cols="30" rows="10" required="required"></textarea>
+<!--                            <input type="text" required="required">-->
+                        </div>
+                        <div class="form_btn">
+                            <input type="button" value="提交" id="submit" class="f_btn" data-name="r-1">
+                            <input type="button" value="取消" id="cancel">
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+    <script>
+        var notice_Id = window.location.href.split("?")[1].split("=")[1];
+        $(document).ready(function () {
+            $.ajax({
+                url: "/notice/update-page",
+                type: "GET",
+                data: "notice_Id=" + notice_Id,
+                dataType : "JSON",
+                success : function (json) {
+                    if (json.code == 200){
+                        $("#title").val(json.data.title);
+                        $("#lianjie").val(json.data.content);
+                    }
+                    else{
+                        alert('读取信息失败');
+                    }
+                },
+                error : function (xhr) {
+                    alert("产生未知异常," + xhr.detailMessage)
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $("#submit").click(function () {
+            $.ajax({
+                url: "/notice/update",
+                type: "PUT",
+                data: "title=" + $("#title").val() + "&content=" + $("#lianjie").val() + "&notice_Id=" + notice_Id,
+                dataType : "JSON",
+                success : function (json) {
+                    if (json.code == 200){
+                        alert('修改成功');
+                        location.href = "admin_notice.html"
+                    }
+                    else{
+                        alert('修改失败');
+                    }
+                },
+                error : function (xhr) {
+                    alert("修改时产生未知异常," + xhr.detailMessage)
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $("#cancel").click(function () {
+            location.href = "admin_notice.html"
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxy.zongce.mapper.ViolationMapper">
+    <resultMap id="ViolationResultMap" type="com.sxy.zongce.entity.Violation">
+        <id column="vio_Id" property="vio_Id" jdbcType="VARCHAR"/>
+        <result column="vio_Score" property="vio_Score" jdbcType="VARCHAR"/>
+        <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        <result column="vio_Time" property="vio_Time" jdbcType="VARCHAR"/>
+        <result column="vio_detail" property="vio_detail" jdbcType="VARCHAR"/>
+        <result column="cancel_Time" property="cancel_Time" jdbcType="DATE"/>
+        <result column="stu_Id" property="stu_Id" jdbcType="VARCHAR"/>
+        <!-- 一对一关联学生表 -->
+        <association property="student" javaType="Student">
+            <result column="stu_Name" property="stu_Name" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!-- 测试，最后会删掉 -->
+    <select id="findAll" resultMap="ViolationResultMap" resultType="com.sxy.zongce.entity.Violation">
+        SELECT * FROM violation,student WHERE violation.stu_Id = student.stu_Id
+    </select>
+
+    <!-- 查询违规违纪最大的id，用于生成自增id -->
+    <select id="findMaxId" resultType="String">
+        SELECT MAX(vio_Id) FROM violation;
+    </select>
+
+    <!-- 查询违纪通报是否存在 -->
+    <select id="isExist" resultType="com.sxy.zongce.entity.Violation">
+        SELECT * FROM violation WHERE vio_Id = #{vio_Id}
+    </select>
+
+    <!-- 查询违纪通报是否已消除 -->
+    <select id="isCanceled" resultType="String">
+        SELECT cancel_Time FROM violation WHERE vio_Id = #{vio_Id}
+    </select>
+
+    <!-- 增量导入违纪通报 -->
+    <insert id="incrementImport" parameterType="com.sxy.zongce.entity.Violation">
+        INSERT INTO violation (vio_Id,stu_Id,vio_Time,vio_detail,vio_Score,semester) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.vio_Id},#{item.stu_Id},#{item.vio_Time},#{item.vio_detail},
+            #{item.vio_Score},#{item.semester})
+        </foreach>
+    </insert>
+
+    <!-- 覆盖导入违纪通报 -->
+    <insert id="coverImport" parameterType="com.sxy.zongce.entity.Violation">
+        INSERT INTO violation (vio_Id,stu_Id,vio_Time,vio_detail,vio_Score,semester) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.vio_Id},#{item.stu_Id},#{item.vio_Time},#{item.vio_detail},
+            #{item.vio_Score},#{item.semester})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        vio_Id = VALUES(vio_Id),
+        vio_Time = VALUES(vio_Time),
+        vio_detail = VALUES(vio_detail),
+        vio_Score = VALUES(vio_Score)
+    </insert>
+
+    <!-- 根据学生id查询违纪通报和学生姓名 -->
+    <select id="findVioByStudent" resultType="com.sxy.zongce.vo.ViolationVo">
+        SELECT vio_Id,student.stu_Id,stu_Name,vio_Time,vio_detail,vio_Score,cancel_Time,semester
+        FROM violation,student
+        WHERE violation.stu_Id = student.stu_Id
+         AND student.stu_Id = #{stu_Id}
+    </select>
+
+    <!-- 根据辅导员id查询相关学生的违纪通报和学生姓名 -->
+    <select id="findVioByMenter" resultType="com.sxy.zongce.vo.ViolationVo">
+        SELECT vio_Id,student.stu_Id,major,stu_class,stu_Name,vio_Time,vio_detail,vio_Score,cancel_Time,semester
+        FROM violation,student
+        WHERE violation.stu_Id = student.stu_Id
+         AND student.menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 条件分页查询违纪通报表的所有字段和学生的学号姓名-->
+    <select id="searchVioByMenter" resultType="com.sxy.zongce.vo.ViolationVo">
+        SELECT vio_Id,student.stu_Id,major,stu_class,stu_Name,vio_Time,vio_detail,vio_Score,cancel_Time,semester
+        FROM violation,student
+        WHERE violation.stu_Id = student.stu_Id
+        AND student.menter_Id = #{menter_Id}
+        <if test="vio_Time != null and vio_Time != ''">
+            AND vio_Time = #{vio_Time}
+        </if>
+        <if test="stu_Id != null and stu_Id != ''">
+            AND violation.stu_Id LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="stu_Name != null and stu_Name != ''">
+            AND stu_Name LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="major != null and major != ''">
+            AND major LIKE CONCAT('%','${major}','%')
+        </if>
+        <if test="stu_class != null and stu_class != ''">
+            AND stu_class LIKE CONCAT('%','${stu_class}','%')
+        </if>
+        <if test="vio_detail != null and vio_detail != ''">
+            AND vio_detail LIKE CONCAT('%','${vio_detail}','%')
+        </if>
+    </select>
+
+    <!-- 根据id更改消除时间 -->
+    <update id="cancelVioById" parameterType="String">
+        UPDATE violation SET cancel_Time = now() WHERE vio_Id = #{vio_Id}
+    </update>
+
+    <!-- 根据id删除违纪通报 -->
+    <delete id="deleteVioById" parameterType="String">
+        DELETE FROM violation WHERE vio_Id = #{vio_Id}
+    </delete>
+
+    <!-- 录入违纪通报 -->
+    <insert id="entryViolation" parameterType="com.sxy.zongce.entity.Violation">
+        INSERT INTO violation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vio_Id != null">vio_Id,</if>
+            <if test="vio_Score != null">vio_Score,</if>
+            <if test="semester != null">semester,</if>
+            <if test="vio_Time != null">vio_Time,</if>
+            <if test="vio_detail != null">vio_detail,</if>
+            <if test="stu_Id != null">stu_Id</if>
+        </trim>
+
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="vio_Id != null">#{vio_Id},</if>
+            <if test="vio_Score != null">#{vio_Score},</if>
+            <if test="semester != null">#{semester},</if>
+            <if test="vio_Time != null">#{vio_Time},</if>
+            <if test="vio_detail != null">#{vio_detail},</if>
+            <if test="stu_Id != null">#{stu_Id}</if>
+        </trim>
+    </insert>
+
+    <!-- 查看违纪通报列表（导入） -->
+    <select id="listViolation" resultType="com.sxy.zongce.vo.ViolationVo">
+        SELECT grade,major,stu_class,student.stu_Id,stu_Name,vio_Time,vio_detail,vio_Score,cancel_Time,semester
+        FROM violation,student
+        WHERE violation.stu_Id = student.stu_Id
+          AND student.menter_Id = #{menter_Id}
+    </select>
+
+    <!-- 查看违纪通报列表（导入） -->
+    <select id="searchViolation" resultType="com.sxy.zongce.vo.ViolationVo">
+        SELECT grade,major,stu_class,student.stu_Id,stu_Name,vio_Time,vio_detail,vio_Score,cancel_Time,semester
+        FROM violation,student
+        WHERE violation.stu_Id = student.stu_Id
+          AND student.menter_Id = #{menter_Id}
+        <if test="grade != 0 and grade != null">
+            AND grade LIKE CONCAT('%','${grade}','%')
+        </if>
+        <if test="major != null">
+            AND major LIKE CONCAT('%','${major}','%')
+        </if>
+        <if test="stu_class != null">
+            AND stu_class LIKE CONCAT('%','${stu_class}','%')
+        </if>
+        <if test="stu_Id != null and stu_Id != ''">
+            AND violation.stu_Id LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="stu_Name != null and stu_Name != ''">
+            AND stu_Name LIKE CONCAT('%','${stu_Id}','%')
+        </if>
+        <if test="semester != null">
+            AND semester LIKE CONCAT('%','${semester}','%')
+        </if>
+    </select>
+
+</mapper>

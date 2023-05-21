@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模块分类管理</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/admin_base.css">
+    <link rel="stylesheet" href="../../css/admin_moduel.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="wrapper">
+        
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="#">模块分类管理</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <div class="item sheet">
+                    <button class="r_btn insert" data-name="r">添加</button>
+                    <table class="table_1">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>模块分类</th>
+<!--                                <th>操作</th>-->
+                                <th>显示/隐藏</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list_content">
+
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        <div class="page_turn">
+                            <span>转到</span>
+                            <input name="pageIndex" type="text" value="1" id="pageIndex">
+                        </div>
+                        <div class="page_amount">
+                            <span>共<span id="totalPages">2</span>页</span>
+                            <span><span id="totalSize">16</span>条</span>
+                        </div>
+                        <div class="page_btn">
+                            <a href="#" id="pre_page">&lt;</a>
+                            <a href="#" id="next_page">&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 弹窗 -->
+            <div class="result-preview">
+                <div class="preview1" data-target="r">
+                    <p>添加模板分类</p>
+                    <input type="text" class="add" id="addname" placeholder="模板分类名称" required="required">
+                    <div class="buttons">
+                        <input type="button" value="确认" class="r_operate confirm" id="confirm">
+                        <input type="button" value="取消" class="r_operate cancel">
+                    </div>
+                </div>
+<!--                <div class="preview" data-target="r-1">-->
+<!--                    <p>修改模板名称</p>-->
+<!--                    <input type="text" class="update" placeholder="模板分类名称" required="required">-->
+<!--                    <div class="buttons">-->
+<!--                        <input type="button" value="确认" class="r_operate confirm">-->
+<!--                        <input type="button" value="取消" class="r_operate cancel">-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../../js/base.js"></script>
+    <script src="../../js/admin_moduel.js"></script>
+    <script>
+
+        let page = 1;
+        //左右切换页面
+
+        $("#pre_page").click(function () {
+            if (page <= 1){
+                alert("此页为第一页");
+            }else {
+                page = page - 1;
+                showListContent(page);
+            }
+        })
+        $("#next_page").click(function () {
+            if (page == $("#totalPages").text()){
+                alert("此页为最后一页");
+            }else {
+                page++;
+                showListContent(page);
+            }
+        })
+
+        //输入页码跳转
+        $("#pageIndex").keydown(function (event) {
+            if (event.keyCode == 13){
+                if (parseInt($("#pageIndex").val()) >= 1 && parseInt($("#pageIndex").val()) <= parseInt($("#totalPages").text())){
+                    page = $("#pageIndex").val();
+                    showListContent(page);
+                }else {
+                    alert("请输入1 ~ " + $("#totalPages").text() + "的页码");
+                }
+
+            }
+        })
+
+        $(document).ready(function () {
+            showListContent(page);
+        });
+        function showListContent(page) {
+            //清空tbody标签中的数据
+            $("#list_content").empty();
+            $.ajax({
+                url: "/template/list",
+                type: "GET",
+                data : "pageNum=" + page + "&pageSize=8",
+                dataType : "JSON",
+                success : function (json) {
+                    let list = json.data.content;
+                    //console.log(list.length);
+                    $("#totalSize").html(json.data.totalSize)
+                    $("#totalPages").html(json.data.totalPages)
+                    $("#pageIndex").val(page)
+                    for(let i = 0 ; i < list.length ; i++){
+                        //alert(list[i].stu_Name);
+                        let tr = '<tr>\n' +
+                            '<td>#{number}</td>\n' +
+                            '<td>#{tem_Name}</td>\n' +
+                            '<td>' +
+                            '<div class="switch">\n' +
+                            '<input onclick="update(#{tem_Id})" type="checkbox" id="switch#{tem_Id}" #{tem_Display} />\n' +
+                            '<label for="switch#{tem_Id}">\n' +
+                            '<span></span>\n' +
+                            '</label>\n' +
+                            '</div>\n' +
+                            '</td>\n' +
+                            '</tr>';
+                        tr = tr.replace(/#{tem_Id}/g , list[i].tem_Id.replace("MU-",""));
+                        tr = tr.replace(/#{tem_Name}/g , list[i].tem_Name);
+                        if (list[i].tem_Display == "是") {
+                            tr = tr.replace(/#{tem_Display}/g ,"checked")
+                        }
+
+                        tr = tr.replace(/#{number}/g , i + 1 + (page - 1) * 8);
+
+                        $("#list_content").append(tr);
+                    }
+                },
+                error : function (xhr) {
+                    alert("数据加载产生未知异常," + xhr,msg)
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function update(tem_Id) {
+            $.ajax({
+                url: "/template/" + tem_Id + "/switch",
+                type: "PUT",
+                dataType : "JSON",
+                success : function (json) {
+                    if (json.code == 200){
+                        alert('修改成功');
+                    }
+                    else{
+                        alert('修改失败');
+                    }
+                },
+                error : function (xhr) {
+                    alert("修改状态产生未知异常," + xhr.detailMessage)
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $("#confirm").click(function () {
+            $.ajax({
+                url: "/template/add",
+                type: "POST",
+                data: "tem_Name=" + $("#addname").val(),
+                dataType : "JSON",
+                success : function (json) {
+                    if (json.code == 200){
+                        alert('添加成功');
+                        window.location.reload();
+                    }
+                    else{
+                        alert('添加失败');
+                    }
+                },
+                error : function (xhr) {
+                    alert("添加时产生未知异常," + xhr.detailMessage)
+                }
+            });
+
+        })
+    </script>
+</body>
+
+</html>

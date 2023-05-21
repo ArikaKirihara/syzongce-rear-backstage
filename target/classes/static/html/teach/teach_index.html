@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>辅导员首页</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/teach_base.css">
+    <link rel="stylesheet" href="../../css/teach_audit.css">
+<!--    <link rel="stylesheet" href="../../fontawesome-free-6.2.0-web/css/all.min.css">-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar Start -->
+        <div class="sidebar">
+            <div class="bg-shadow"></div>
+
+            <div class="sidebar_inner">
+                <div class="side_top"></div>
+                <div class="close">
+                    <i class="fa-sharp fa-solid fa-xmark"></i>
+                </div>
+                <!-- 登陆情况 -->
+                <div class="profile_info">
+                    <div class="profile_img">
+                        <img src="../../images/sidebar/touxiang.png" alt="头像">
+                    </div>
+                    <div class="profile_data">
+                        <p class="name">JACK，欢迎您！</p>
+                        <a href="./teach_password.html" target="myifm">修改密码</a>
+                    </div>
+                </div>
+                <!-- 侧边栏表单 -->
+                <ul class="sidebar_menu">
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa-solid fa-check-to-slot"></i>
+                            </div>
+                            <div class="title">审核认证申请</div>
+                            <div class="arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion">
+                            <li><a href="./teach_audit.html" target="myifm">审核学生认证信息</a></li>
+                            <li><a href="./teach_check.html" target="myifm">综测审核记录</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="../stu/stu_base_information.html" target="myifm">
+                            <div class="icon">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="title">学生基本信息管理</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa-solid fa-table-list"></i>
+                            </div>
+                            <div class="title" >综合素质测评</div>
+                            <div class="arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion accordion2">
+                            <li><a href="./teach_gpa.html" target="myifm">导入学生个人绩点</a></li>
+                            <li><a href="./teach_welfare.html" target="myifm">导入学生公益积分</a></li>
+                            <li><a href="./teach_other.html" target="myifm">导入其他加分</a></li>
+                            <li><a href="./teach_other_input.html" target="myifm">录入其他加分</a></li>
+                            <li><a href="./teach_export.html" target="myifm">总评成绩管理</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="./teach_notice.html" target="myifm">
+                            <div class="icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class="title">公告通知</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa-solid fa-bookmark"></i>
+                            </div>
+                            <div class="title">违规违纪管理</div>
+                            <div class="arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion accordion1">
+                            <li><a href="./teach_vio_records.html" target="myifm">违规违纪记录</a></li>
+                            <li><a href="./teach_violation.html" target="myifm">导入违规违纪信息</a></li>
+                            <li><a href="./teach_vio_input.html" target="myifm">填写违规违纪信息</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="logout_btn">
+                    <a href="../login.html">退出登录</a>
+                </div>
+            </div>
+        </div>
+        <!-- sidebar END -->
+        <div class="banner" >
+            <iframe src="./teach_notice.html" frameBorder="0" name="myifm" id="myifm"></iframe>
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+    <script src="../../js/teach_audit.js"></script>
+    <script src="../../js/stu_id_check.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url:"/menter/name",
+                type:"GET",
+                data:$("#form_control").serialize(),
+                dataType:"JSON",
+                success:function(json){
+                    if (json.code == 200){
+                        $(".name").html(json.data + "，欢迎您！")
+                    }
+                    else{
+                        alert('用户信息不存在');
+                    }
+                },
+                error:function(xhr){
+                    alert("查询用户信息产生未知异常："+xhr.msg);
+                }
+            });
+        });
+    </script>
+    <script>
+        $('.logout_btn').click(function (){
+            $.ajax({
+                url:"/menter/logout",
+                type:"POST",
+                dataType:"JSON",
+                success:function(json){
+                    if (json.code == 200){
+                        alert('成功退出');
+                        location.href = "../login.html";
+                    }
+                    else{
+                        alert('退出失败');
+                    }
+                },
+                error:function(xhr){
+                    alert("退出产生未知异常："+xhr.msg);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

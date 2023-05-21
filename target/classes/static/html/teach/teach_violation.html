@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导入违规违纪信息</title>
+    <link rel="icon" href="../../images/icon.jpg">
+    <link rel="stylesheet" href="../../layouts/teach_base.css">
+    <link rel="stylesheet" href="../../css/teach_violation.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/52be94c6a3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main_container">
+            <!-- header Start -->
+            <div class="navbar">
+                <div class="shousuo">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="page_title">
+                    <a href="teach_violation.html">导入违规违纪信息</a>
+                </div>
+            </div>
+            <!-- header END -->
+            <div class="content">
+                <!-- 导入板块 -->
+                <div class="item">
+                    <button id="download">下载模板</button>
+                    <hr>
+                    <div class="import">
+                        <form id="increment" enctype="multipart/form-data">
+                        <div class="left">
+                            <span class="text1">对应关系文件*</span>
+                            <input type="file" class="upload" name="file">
+                            <p>
+                                <span class="note">1.在原始导入的学生及对应的公益积分记录追加数据。</span>
+                                <span class="note">2.当前学生没有任何对应的记录，就直接导入。</span>
+                            </p>
+                            <button class="btn2" id="vio_increment">增量导入</button>
+                        </div>
+                        </form>
+                        <form id="cover" enctype="multipart/form-data">
+                        <div class="right">
+                            <span class="text1">对应关系文件*</span>
+                            <input type="file" class="upload" name="file">
+                            <p>
+                                <span class="note">1.原始的学生及对应的公益积分导入记录会被更新覆盖。</span>
+                                <span class="note">2.当前学生没有任何对应的记录，就直接导入。</span>
+                            </p>
+                            <button class="btn2" id="vio_cover">覆盖导入</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- 数据显示板块 -->
+                <div class="item sheet">
+                    <span id="data">数据显示：</span>
+                    <table class="table_1">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>年级</th>
+                                <th>专业</th>
+                                <th>班级</th>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>违纪时间</th>
+                                <th>原因</th>
+                                <th>扣分分值</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list_content">
+                            <tr>
+                                <td>1</td>
+                                <td>2019</td>
+                                <td>信息管理与信息系统</td>
+                                <td>2班</td>
+                                <td>190802100653</td>
+                                <td>吴清霞</td>
+                                <td>2022-04-01</td>
+                                <td>旷课</td>
+                                <td>0.2</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        <div class="page_turn">
+                            <span>转到</span>
+                            <input name="pageIndex" type="text" value="1" id="pageIndex">
+                        </div>
+                        <div class="page_amount">
+                            <span>共<span id="totalPages">2</span>页</span>
+                            <span><span id="totalSize">16</span>条</span>
+                        </div>
+                        <div class="page_btn">
+                            <a href="#" id="pre_page">&lt;</a>
+                            <a href="#" id="next_page">&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/base.js"></script>
+
+    <script>
+        $("#download").click(function () {
+            location.href = "http://localhost:8012/violation/tmp";
+        })
+    </script>
+
+    <script>
+        $("#vio_increment").click(function () {
+            $.ajax({
+                url: "/violation/import/increment",
+                type: "POST",
+                data: new FormData($("#increment")[0]),
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+                success: function (json) {
+                    if (json.code == 200){
+                        alert("上传成功");
+                    }else {
+                        alert("上传失败");
+                    }
+                },
+                error: function (xhr) {
+                    alert("上传文件产生未知异常," + xhr.msg)
+                }
+            });
+        })
+
+        $("#vio_cover").click(function () {
+            $.ajax({
+                url: "/violation/import/cover",
+                type: "POST",
+                data: new FormData($("#cover")[0]),
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+                success: function (json) {
+                    if (json.code == 200){
+                        alert("上传成功");
+                    }else {
+                        alert("上传失败");
+                    }
+                },
+                error: function (xhr) {
+                    alert("上传文件产生未知异常," + xhr.msg)
+                }
+            });
+        })
+    </script>
+    <script>//查看绩点列表显示
+    //页码
+    let page = 1;
+    //左右切换页面
+    $("#pre_page").click(function () {
+        if (page <= 1){
+            alert("此页为第一页");
+        }else {
+            page = page - 1;
+            showListContent(page);
+        }
+    })
+    $("#next_page").click(function () {
+        if (page == $("#totalPages").text()){
+            alert("此页为最后一页");
+        }else {
+            page++;
+            showListContent(page);
+
+        }
+    })
+
+    //输入页码跳转
+    $("#pageIndex").keydown(function (event) {
+        if (event.keyCode == 13){
+            if (parseInt($("#pageIndex").val()) >= 1 && parseInt($("#pageIndex").val()) <= parseInt($("#totalPages").text())){
+                page = $("#pageIndex").val();
+                showListContent(page);
+            }else {
+                alert("请输入1 ~ " + $("#totalPages").text() + "的页码");
+            }
+
+        }
+    })
+
+    $(document).ready(function () {
+        showListContent(page);
+    });
+
+    function showListContent(page) {
+        $("#list_content").empty();//清空tbody标签中的数据
+        //辅导员获取学个人绩点信息
+        $.ajax({
+            url: "/violation/list/import",
+            type: "GET",
+            data: "pageNum=" + page + "&pageSize=6",
+            dataType: "JSON",
+            success: function (json) {
+                let list = json.data.content;
+                //console.log(list.length);
+                $("#totalSize").html(json.data.totalSize)
+                $("#totalPages").html(json.data.totalPages)
+                $("#pageIndex").val(page)
+                for (let i = 0; i < list.length; i++) {
+                    //alert(list[i].stu_Name);
+                    let tr = '<tr>\n' +
+                        '<td>#{number}</td>\n' +
+                        '<td>#{grade}</td>\n' +
+                        '<td>#{major}</td>\n' +
+                        '<td>#{stu_class}</td>\n' +
+                        '<td>#{stu_Id}</td>\n' +
+                        '<td>#{stu_Name}</td>\n' +
+                        '<td>#{vio_Time}</td>\n' +
+                        '<td>#{vio_detail}</td>\n' +
+                        '<td>#{vio_Score}</td>\n'
+                        '</tr>';
+
+                    tr = tr.replace(/#{grade}/g, list[i].grade);
+                    tr = tr.replace(/#{major}/g, list[i].major);
+                    tr = tr.replace(/#{stu_class}/g, list[i].stu_class);
+                    tr = tr.replace(/#{stu_Id}/g, list[i].stu_Id);
+                    tr = tr.replace(/#{stu_Name}/g, list[i].stu_Name);
+                    tr = tr.replace(/#{vio_Time}/g, list[i].vio_Time);
+                    tr = tr.replace(/#{vio_detail}/g, list[i].vio_detail);
+                    tr = tr.replace(/#{vio_Score}/g, list[i].vio_Score);
+
+                    tr = tr.replace(/#{number}/g, i + 1 + (page - 1) * 6);
+
+                    $("#list_content").append(tr);
+                }
+            },
+            error: function (xhr) {
+                alert("数据加载产生未知异常," + xhr.msg)
+            }
+        });
+    }
+    </script>
+</body>
+
+</html>

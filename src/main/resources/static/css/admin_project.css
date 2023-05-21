@@ -1,0 +1,328 @@
+@charset "utf-8";
+
+/* CSS Document */
+.content .item {
+    margin: 10px 5px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Microsoft YaHei';
+    font-weight: normal;
+}
+
+.content .sheet {
+    height: 600px;
+}
+
+.content .sheet .table_1 {
+    margin: 10px 5px;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+    /* border: solid 1px #000; */
+
+}
+
+.content .sheet .table_1 tr th {
+    background: rgb(2, 62, 118);
+    color: #fff;
+    border-right: 1px solid #fff;
+    padding: 10px 5px;
+}
+
+.content .sheet .table_1 tr td {
+    font-size: 14px;
+    padding: 10px 5px;
+    border-bottom: 1px solid rgb(206, 206, 206);
+}
+
+.insert {
+    width: 90px;
+    height: 30px;
+    float: right;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+    margin-bottom: 10px;
+}
+
+.insert:hover,
+.insert:active {
+    background-color: rgb(60, 163, 248);
+}
+
+.r_btn {
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    color: #fff;
+    background-color: rgb(11, 140, 245);
+    margin-bottom: 10px;
+}
+
+.r_btn:hover,
+.r_btn:active {
+    background-color: rgb(60, 163, 248);
+}
+
+
+.switch {
+    font-family: sans-serif;
+    display: inline-block;
+    position: relative;
+}
+
+.switch input[type="checkbox"] {
+    position: absolute;
+    left: -9999px;
+}
+
+.switch label {
+    cursor: pointer;
+}
+
+.switch span {
+    display: inline-block;
+    position: relative;
+    width: 60px;
+    height: 26px;
+    background: #434257;
+    border-radius: 15px;
+    transition: all 0.8s;
+}
+
+.switch label span::before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.switch label span::after {
+    content: "隐藏";
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: white;
+}
+
+.switch input[type="checkbox"]:checked+label span::before {
+    transform: translateX(34px);
+}
+
+.switch input[type="checkbox"]:checked+label span::after {
+    content: "显示";
+    left: 6px;
+    right: auto;
+}
+
+.switch input[type="checkbox"]:checked+label span {
+    background: #00d084;
+}
+
+
+.content .item .page {
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+}
+
+.content .item .page a {
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    border: 1px solid #ccc;
+    width: 44px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: rgb(251, 251, 251);
+    text-decoration: none;
+}
+
+.content .item .page .page_turn ,
+.content .item .page .page_amount ,
+.content .item .page .page_btn {
+    display: inline-block;
+    height: 25px;
+}
+
+.content .item .page .page_turn #pageIndex {
+    width: 35px;
+    height: 20px;
+    text-align: center;
+}
+
+.content .item .page a:hover {
+    background: #1db69a;
+    color: #fff;
+    border: 1px solid #1db69a;
+}
+
+.result-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, .8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-preview p {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/*.result-preview .preview {*/
+/*    display: none;*/
+/*    padding: 3rem;*/
+/*    text-align: center;*/
+/*    background: #fff;*/
+/*    position: relative;*/
+/*    width: 30rem;*/
+/*    margin-left: 10%;*/
+/*}*/
+
+
+/*.result-preview .preview.active {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.result-preview .preview .buttons {*/
+/*    display: flex;*/
+/*    justify-content: space-around;*/
+/*    margin: 20px 10px;*/
+/*}*/
+
+/*.result-preview .preview .buttons .confirm {*/
+/*    width: 60px;*/
+/*    height: 30px;*/
+/*    background-color: rgb(0, 21, 41);*/
+/*    color: #fff;*/
+/*    border-radius: 5%;*/
+/*    border: 1px solid #ccc;*/
+/*}*/
+
+/*.result-preview .preview .buttons .cancel {*/
+/*    width: 60px;*/
+/*    height: 30px;*/
+/*    border-radius: 5%;*/
+/*    border: 1px solid #ccc;*/
+/*}*/
+
+.result-preview .preview1 {
+    display: none;
+    padding: 3rem;
+    text-align: center;
+    background: #fff;
+    position: relative;
+    width: 30rem;
+    margin-left: 10%;
+}
+
+.result-preview .preview1.active {
+    display: inline-block;
+}
+
+.result-preview .preview1 .buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 10px;
+}
+
+.result-preview .preview1 .buttons .confirm {
+    width: 60px;
+    height: 30px;
+    background-color: rgb(0, 21, 41);
+    color: #fff;
+    border-radius: 5%;
+    border: 1px solid #ccc;
+}
+
+.result-preview .preview1 .buttons .cancel {
+    width: 60px;
+    height: 30px;
+    border-radius: 5%;
+    border: 1px solid #ccc;
+}
+
+
+#model {
+    display: block;
+    width: 152px;
+    margin-left: 92px;
+    margin-bottom: 10px;
+}
+
+.content .sheet .table_1 ul li {
+    /* padding: 10px 20px; */
+    position: relative;
+}
+
+#tem_name {
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.template:hover {
+    color: rgb(11, 140, 245);
+}
+
+.fas {
+    margin-left: 10px;
+    padding-top: 3px;
+}
+
+.dropdown-menu {
+    display: none;
+}
+
+.template {
+    font-size: 16px;
+    color: #000;
+    font-weight: normal;
+    font-family: 'Microsoft YaHei';
+}
+
+.content .sheet .table_1 ul li:hover .dropdown-menu {
+    z-index: 9999;
+    display: block;
+    position: absolute;
+    width: 150px;
+    left: 20%;
+    top: 100%;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125),
+    -2px -2px 4px rgba(0, 0, 0, 0.125);
+}
+
+.content .sheet .table_1 ul li:hover .dropdown-menu ul {
+    display: block;
+}
+
+.content .sheet .table_1 ul li:hover .dropdown-menu ul li {
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
